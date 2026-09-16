@@ -1,0 +1,1387 @@
+<title>Bappa &amp; the Paltan</title>
+<meta name="description" content="Ten days of Ganeshotsav, nine Mumbai Indians trophies, one wish — an animated story told by Mushak.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=IBM+Plex+Mono:wght@500;600&family=Kalam:wght@400;700&family=Mukta:wght@400;600;700&display=swap">
+<style>
+/* One visual world: a festival night in Mumbai. Single theme on purpose. */
+@property --s1{syntax:"<color>";inherits:true;initial-value:#1B2A6B}
+@property --s2{syntax:"<color>";inherits:true;initial-value:#F58A6B}
+:root{
+  --night:#0A1640;
+  --night-2:#12225C;
+  --paper:#FFF3D6;
+  --ink:#1E1B4B;
+  --cream:#FFF6E3;
+  --soft:#C5CCF0;
+  --gold:#FFC93C;
+  --marigold:#FF8A00;
+  --kumkum:#E0283C;
+  --pink:#FF6FA0;
+  --leaf:#3FBF6A;
+  --mi:#1D5FD6;
+  --line:#2A2250;
+  --display:"Baloo 2","Mukta","Trebuchet MS",system-ui,sans-serif;
+  --body:"Mukta","Segoe UI",system-ui,sans-serif;
+  --hand:"Kalam","Comic Sans MS",cursive;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--night);color:var(--cream);font-family:var(--body);font-size:1.0625rem;line-height:1.6;overflow-x:hidden}
+h1,h2,h3{font-family:var(--display);line-height:1.02;margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px dashed var(--gold);outline-offset:3px}
+.deva{font-family:var(--display);font-weight:700}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ============ layout ============ */
+.story{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);position:relative}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:linear-gradient(180deg,var(--s1) 0%,var(--s2) 100%);transition:--s1 1.1s ease,--s2 1.1s ease;isolation:isolate}
+.stage svg.scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+.chapters{background:var(--night);background-image:radial-gradient(rgba(255,201,60,.14) 1.2px,transparent 1.6px);background-size:30px 30px;padding-inline:clamp(18px,3.4vw,48px)}
+
+/* ============ LED marquee: stadium scoreboard meets pandal signboard ============ */
+.ledwrap{position:relative;background:#060B24;border-block:3px solid var(--gold);overflow:hidden}
+.ledwrap::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(0,0,0,.4) 0 2px,transparent 2px 4px);pointer-events:none;z-index:1}
+.ledtrack{display:flex;width:max-content;animation:led 32s linear infinite}
+.ledtrack span{display:flex;align-items:center;padding:9px 24px;font-family:var(--mono);font-weight:600;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.ledtrack span b{color:#fff}
+.ledtrack span::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--kumkum);margin-left:24px;box-shadow:0 0 6px var(--kumkum)}
+@keyframes led{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ledtrack{animation:none;overflow-x:auto;max-width:100%}}
+
+/* ============ pointer glow on the stage ============ */
+.pglow{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .5s;background:radial-gradient(240px 240px at var(--px,50%) var(--py,50%),rgba(255,201,60,.18),transparent 70%)}
+.stage.hasglow .pglow{opacity:1}
+
+/* ============ wish certificate (Day 10) ============ */
+.cert-form{margin-top:16px;display:grid;gap:10px;max-width:26rem}
+.cert-form label{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6B6490}
+.cert-form input,.cert-form textarea{font:inherit;font-family:var(--body);font-size:.98rem;border:2.5px solid var(--ink);border-radius:10px;padding:8px 12px;background:#fff;color:var(--ink);resize:vertical}
+.cert-form textarea{min-height:4.2em}
+.sealbtn{margin-top:2px;display:inline-flex;align-items:center;gap:8px;background:var(--kumkum);color:#fff;border:3px solid var(--line);border-radius:999px;padding:8px 20px 6px;font-family:var(--display);font-weight:800;cursor:pointer;box-shadow:0 4px 0 var(--line);justify-self:start}
+.sealbtn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.cert{margin-top:0;position:relative;background:#FFFBEF;border:3px solid transparent;border-radius:16px;padding:0 22px;max-height:0;overflow:hidden;transform:scale(.94);opacity:0;transition:max-height .6s ease,padding .6s ease,margin .6s ease,border-color .3s ease .2s,transform .5s cubic-bezier(.2,1.6,.4,1) .1s,opacity .4s ease .1s}
+.cert.show{margin-top:20px;max-height:600px;padding:24px 22px 20px;border-color:var(--kumkum);transform:scale(1);opacity:1}
+.cert::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(30,27,75,.06) 1px,transparent 1.4px);background-size:6px 6px;pointer-events:none}
+.cert-corner{position:absolute;width:22px;height:22px;border:3px solid var(--gold)}
+.cert-corner.tl{top:7px;left:7px;border-right:0;border-bottom:0}
+.cert-corner.tr{top:7px;right:7px;border-left:0;border-bottom:0}
+.cert-corner.bl{bottom:7px;left:7px;border-right:0;border-top:0}
+.cert-corner.br{bottom:7px;right:7px;border-left:0;border-top:0}
+.cert-seal{width:64px;height:64px;margin-inline:auto;position:relative;z-index:1}
+.cert-seal svg{width:100%;height:100%;display:block}
+@media (prefers-reduced-motion:no-preference){.cert-seal.slam{animation:slam .5s cubic-bezier(.2,1.6,.4,1)}}
+.cert-kicker{text-align:center;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--kumkum);margin-top:8px;position:relative;z-index:1}
+.cert-name{text-align:center;font-family:var(--display);font-weight:800;font-size:1.2rem;color:var(--ink);margin-top:4px;position:relative;z-index:1}
+.cert-wish{text-align:center;font-family:var(--hand);font-size:1.35rem;color:var(--ink);margin-top:10px;line-height:1.4;position:relative;z-index:1}
+.cert-sign{text-align:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:#6B6490;margin-top:14px;position:relative;z-index:1}
+
+/* ============ stage overlays ============ */
+.cap{position:absolute;top:18px;left:18px;z-index:4;display:flex;gap:8px;align-items:center;background:rgba(10,16,48,.72);border:2px solid rgba(255,201,60,.5);border-radius:999px;padding:4px 14px 3px;font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--cream);backdrop-filter:blur(4px)}
+.cap b{color:var(--gold);font-weight:600}
+.sound{position:absolute;top:14px;right:14px;z-index:4;display:flex;align-items:center;gap:8px;background:var(--gold);color:var(--ink);border:3px solid var(--line);border-radius:999px;padding:5px 14px 3px;font-family:var(--display);font-weight:800;cursor:pointer;box-shadow:0 4px 0 var(--line)}
+.sound[aria-pressed="true"]{background:var(--kumkum);color:#fff}
+.sound:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+
+.rail{position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:4;display:grid;gap:4px;list-style:none;margin:0;padding:8px 5px;background:rgba(10,16,48,.55);border-radius:999px;border:2px solid rgba(255,201,60,.35)}
+.rail button{background:none;border:0;padding:2px;cursor:pointer;display:grid;place-items:center;width:34px;height:30px;border-radius:10px}
+.rail svg{width:30px;height:26px;overflow:visible}
+.rail .flame{opacity:0;transform-origin:15px 12px;transform:scale(.3);transition:opacity .4s,transform .4s}
+.rail button.lit .flame{opacity:1;transform:scale(1)}
+.rail button.now{background:rgba(255,201,60,.22)}
+@media (prefers-reduced-motion:no-preference){.rail button.lit .flame{animation:flicker 1.2s ease-in-out infinite}}
+@keyframes flicker{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.12,.94) rotate(3deg)}}
+
+.shelf{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;display:flex;gap:4px;align-items:flex-end;background:rgba(10,16,48,.72);border:2px solid rgba(255,201,60,.45);border-radius:16px;padding:6px 10px 4px;backdrop-filter:blur(4px);max-width:calc(100% - 28px)}
+.slot{display:grid;justify-items:center;width:40px}
+.slot svg{width:28px;height:36px;display:block;transition:transform .5s cubic-bezier(.3,1.8,.5,1),filter .5s}
+.slot span{font-family:var(--mono);font-size:.62rem;color:var(--soft);font-variant-numeric:tabular-nums;line-height:1.4}
+.slot .cupfill{fill:rgba(255,255,255,.08);stroke:rgba(255,246,227,.35);transition:fill .5s,stroke .5s}
+.slot .cupstar{fill:rgba(255,255,255,.12);stroke:rgba(255,246,227,.35);transition:fill .5s,stroke .5s}
+.slot.got .cupfill{stroke:var(--line)}
+.slot.got.ipl .cupfill,.slot.got.wpl .cupfill{fill:var(--gold)}
+.slot.got.clt .cupfill{fill:#DCE4F2}
+.slot.got.wpl .cupstar{fill:var(--kumkum);stroke:var(--line)}
+.slot.got svg{transform:translateY(-2px)}
+.slot.fresh svg{transform:translateY(-8px) scale(1.25);filter:drop-shadow(0 0 8px rgba(255,201,60,.9))}
+.slot.mystery .q{fill:rgba(255,246,227,.5);font-family:var(--display);font-weight:800}
+.slot.mystery.glow .cupfill{fill:rgba(255,201,60,.35);stroke:var(--gold)}
+@media (prefers-reduced-motion:no-preference){
+  .slot.mystery.glow svg{animation:pulse 1.4s ease-in-out infinite}
+  .slot.got .shine{animation:shine 3.2s ease-in-out infinite}
+}
+.slot:nth-child(2) .shine,.slot:nth-child(5) .shine,.slot:nth-child(8) .shine{animation-delay:-1.1s}
+.slot:nth-child(3) .shine,.slot:nth-child(6) .shine,.slot:nth-child(9) .shine{animation-delay:-2.2s}
+@keyframes pulse{0%,100%{filter:drop-shadow(0 0 2px rgba(255,201,60,.4))}50%{filter:drop-shadow(0 0 12px rgba(255,201,60,1))}}
+@keyframes shine{0%,40%,100%{opacity:0}45%{opacity:.9}55%{opacity:0}}
+.shine{opacity:0;fill:#fff}
+
+/* ============ Paltan crest: an original fan badge, not the official mark ============ */
+.crest-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(29,95,214,.18);border:2px solid rgba(255,201,60,.5);border-radius:999px;padding:4px 14px 3px 4px;margin-top:12px;justify-self:start}
+.crest-badge svg{width:30px;height:35px;display:block}
+.crest-badge span{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+
+.stamp{position:absolute;z-index:4;top:22%;left:8%;padding:6px 16px 2px;border:5px solid var(--kumkum);border-radius:12px;color:var(--kumkum);background:rgba(255,246,227,.92);font-family:var(--display);font-weight:800;font-size:clamp(1.1rem,2.4vw,1.8rem);line-height:1;text-transform:uppercase;transform:rotate(-14deg) scale(0);opacity:0;pointer-events:none;box-shadow:0 5px 0 rgba(0,0,0,.25)}
+.stamp.on{opacity:1;transform:rotate(-14deg) scale(1)}
+@media (prefers-reduced-motion:no-preference){.stamp.on{animation:slam .45s cubic-bezier(.2,1.6,.4,1)}}
+@keyframes slam{0%{transform:rotate(-24deg) scale(2.6);opacity:0}100%{transform:rotate(-14deg) scale(1);opacity:1}}
+
+.bubble{position:absolute;z-index:4;left:50%;top:26%;transform:translate(-50%,0) scale(0);background:#fff;color:var(--kumkum);border:3px solid var(--line);border-radius:18px;padding:4px 16px 0;font-family:var(--display);font-weight:800;font-size:1.6rem;pointer-events:none;opacity:0;transition:transform .25s cubic-bezier(.2,1.8,.4,1),opacity .2s}
+.bubble.on{transform:translate(-50%,-10px) scale(1);opacity:1}
+
+/* ============ scene states ============ */
+.bd{opacity:0;transition:opacity 1s ease}
+.stage[data-scene="mumbai"] .bd-mumbai,
+.stage[data-scene="chennai"] .bd-chennai,
+.stage[data-scene="kolkata"] .bd-kolkata,
+.stage[data-scene="hyderabad"] .bd-hyderabad,
+.stage[data-scene="dubai"] .bd-dubai,
+.stage[data-scene="chowpatty"] .bd-chowpatty{opacity:1}
+.stadium{transition:opacity 1s ease}
+.stage[data-scene="chowpatty"] .stadium{opacity:0}
+.sea{opacity:0;transition:opacity 1s ease}
+.stage[data-scene="chowpatty"] .sea{opacity:1}
+.prop{opacity:0;transform:scale(.4);transition:opacity .35s ease,transform .45s cubic-bezier(.2,1.7,.4,1)}
+.stage[data-prop="modak"] .p-modak,
+.stage[data-prop="silver"] .p-silver,
+.stage[data-prop="gold"] .p-gold,
+.stage[data-prop="ribbon"] .p-ribbon,
+.stage[data-prop="dhol"] .p-dhol,
+.stage[data-prop="bat"] .p-bat,
+.stage[data-prop="diya"] .p-diya,
+.stage[data-prop="durva"] .p-durva,
+.stage[data-prop="wave"] .p-wave{opacity:1;transform:scale(1)}
+.p-modak,.p-silver,.p-gold,.p-ribbon,.p-bat,.p-diya,.p-durva{transform-origin:252px 150px}
+.p-dhol{transform-origin:160px 250px}
+.halo-glow{opacity:0;transition:opacity 1.2s}
+.stage.blessed .halo-glow{opacity:1}
+
+/* ============ bappa motion ============ */
+.bappa-hit{cursor:pointer;outline:none}
+.bappa-hit:focus-visible .halo-ring{stroke:#fff;stroke-width:6}
+@media (prefers-reduced-motion:no-preference){
+  .rays{animation:spin 50s linear infinite;transform-origin:160px 150px}
+  .bappa-body{animation:bob 3.2s ease-in-out infinite;transform-origin:160px 300px}
+  .ear-l{animation:flapL 2.6s ease-in-out infinite;transform-origin:118px 118px}
+  .ear-r{animation:flapR 2.6s ease-in-out infinite;transform-origin:202px 118px}
+  .trunk{animation:trunk 3.6s ease-in-out infinite;transform-origin:160px 132px}
+  .eyes{animation:blink 4.5s infinite;transform-origin:160px 120px}
+  .raise{animation:bless 3.2s ease-in-out infinite;transform-origin:222px 200px}
+  .mushak{animation:hop 2.4s ease-in-out infinite;transform-origin:262px 330px}
+  .beam-l{animation:beamL 7s ease-in-out infinite;transform-origin:45px 318px}
+  .beam-r{animation:beamR 7s ease-in-out infinite;transform-origin:555px 318px}
+  .crowd-wave{animation:crowd 1.6s ease-in-out infinite}
+  .waves{animation:waves 5s linear infinite}
+  .procession{animation:march 3s ease-in-out infinite}
+  .stage.dancing .bappa-body{animation:dance .36s ease-in-out infinite}
+  .stage.dancing .mushak{animation:hop .36s ease-in-out infinite}
+  .stage.dancing .crowd-wave{animation-duration:.36s}
+  .stage.giggle .trunk{animation:wiggle .5s ease-in-out 2}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes flapL{0%,100%{transform:rotate(0)}50%{transform:rotate(-9deg)}}
+@keyframes flapR{0%,100%{transform:rotate(0)}50%{transform:rotate(9deg)}}
+@keyframes trunk{0%,100%{transform:rotate(0)}50%{transform:rotate(7deg)}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(16deg)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes bless{0%,100%{transform:rotate(0)}50%{transform:rotate(-6deg)}}
+@keyframes hop{0%,70%,100%{transform:translateY(0)}80%{transform:translateY(-14px)}}
+@keyframes dance{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(4deg) translateY(-10px)}}
+@keyframes beamL{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(10deg)}}
+@keyframes beamR{0%,100%{transform:rotate(6deg)}50%{transform:rotate(-10deg)}}
+@keyframes crowd{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes waves{from{transform:translateX(0)}to{transform:translateX(-80px)}}
+@keyframes march{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* ============ chapters ============ */
+.chapter{min-height:100vh;min-height:100svh;display:grid;align-content:center;padding-block:72px}
+.chapter.intro{align-content:start;padding-top:clamp(40px,8vh,90px)}
+.kicker{font-family:var(--mono);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.intro h1{font-size:clamp(3.2rem,6.4vw,5.8rem);font-weight:800;margin-top:10px;color:var(--cream);letter-spacing:-.01em}
+.intro h1 .amp{font-family:var(--hand);color:var(--marigold);font-weight:700;display:inline-block;transform:rotate(-8deg);margin-inline:.05em}
+.intro h1 .blue{color:#6FA4FF}
+.thesis{margin-top:18px;display:grid;gap:2px;font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.7rem);line-height:1.2}
+.thesis b{color:var(--gold);font-weight:800}
+.thesis span:last-child b{color:var(--pink)}
+.deva-big{margin-top:14px;font-size:clamp(1.4rem,2.6vw,2rem);color:var(--marigold);text-shadow:2px 2px 0 #000}
+
+.says{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start;margin-top:26px}
+.says svg{width:56px;height:56px;display:block}
+.says p{font-size:1.08rem}
+.intro .says p{color:var(--soft)}
+.intro .says strong{color:var(--cream)}
+.hint{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.go{display:inline-flex;align-items:center;gap:8px;background:var(--marigold);color:var(--ink);border:3px solid #000;border-radius:999px;padding:8px 20px 6px;font-family:var(--display);font-weight:800;text-decoration:none;box-shadow:0 5px 0 #000}
+.go:hover{transform:translateY(-2px)}
+.tip{font-family:var(--hand);color:var(--soft)}
+
+.ticket{background:var(--paper);color:var(--ink);border-radius:20px;position:relative;box-shadow:0 12px 0 rgba(0,0,0,.35);max-width:40rem}
+.ticket::before,.ticket::after{content:"";position:absolute;top:38px;width:22px;height:22px;border-radius:50%;background:var(--night)}
+.ticket::before{left:-11px}
+.ticket::after{right:-11px}
+.stub{position:relative;display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 14px;padding:12px 24px 16px;background:var(--gold);border-radius:20px 20px 0 0;font-family:var(--mono);font-weight:600;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
+.stub::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='14'%3E%3Cpath d='M0 7 Q10 -3 20 7 Q30 17 40 7' fill='none' stroke='%23E0283C' stroke-width='2'/%3E%3Cpath d='M4 3 l4 8 M12 1 l4 8 M20 3 l4 8 M28 1 l4 8 M36 3 l4 8' stroke='%23E0283C' stroke-width='1.4'/%3E%3C/svg%3E") repeat-x;background-size:40px 14px;background-position:0 -3px}
+.tbody{padding:20px 24px 22px}
+.ritual{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.ritual .deva{font-size:1.5rem;color:var(--kumkum)}
+.ritual .en{font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:#6B6490}
+.ticket h2{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:800;margin-top:6px}
+.ticket .says{margin-top:14px}
+.ticket .says p{color:#3A3566}
+.ticket .says p b{color:var(--ink)}
+.blessing{margin-top:16px;padding-top:12px;border-top:2px dotted rgba(30,27,75,.3);font-family:var(--hand);font-size:1.18rem;color:var(--kumkum);line-height:1.35}
+.blessing em{font-style:normal;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#6B6490;margin-right:6px}
+
+.tbtn{margin-top:14px;display:inline-flex;align-items:center;gap:8px;background:var(--mi);color:#fff;border:3px solid var(--line);border-radius:999px;padding:7px 18px 5px;font-family:var(--display);font-weight:800;cursor:pointer;box-shadow:0 4px 0 var(--line)}
+.tbtn[aria-pressed="true"]{background:var(--kumkum)}
+.tbtn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+
+/* ============ mini-interactions (one per day) ============ */
+.mini{margin-top:16px;display:grid;justify-items:center;gap:8px;text-align:center}
+.mini-q{font-family:var(--display);font-weight:700;color:var(--ink)}
+.mini-result{font-family:var(--hand);font-size:1.05rem;color:var(--kumkum);min-height:1.6em;line-height:1.3}
+
+.toss-row{display:flex;gap:10px}
+.mtbtn{background:#fff;border:3px solid var(--ink);border-radius:999px;padding:6px 16px 4px;font-family:var(--display);font-weight:800;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+.mtbtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.mtbtn[disabled]{opacity:.5;cursor:default}
+.coin{width:74px;height:74px;perspective:700px}
+.coin-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform 1.15s cubic-bezier(.2,.7,.25,1)}
+.coin-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:50%}
+.coin-face.tails{transform:rotateY(180deg)}
+
+.quiz-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.qbtn{background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:6px 14px 4px;font-family:var(--body);font-weight:600;cursor:pointer;transition:opacity .3s}
+.qbtn.right{background:#DFF5E4;border-color:var(--leaf)}
+.qbtn.wrong{background:#FFE1E1;border-color:var(--kumkum)}
+.qbtn.dim{opacity:.4}
+.qbtn[disabled]{cursor:default}
+
+.rdots{display:flex;justify-content:center;gap:12px}
+.rdot{background:none;border:0;cursor:pointer;padding:4px}
+.rdot svg{width:26px;height:26px;display:block}
+.rdot .rc{fill:#fff;stroke:var(--marigold);stroke-width:2;transition:fill .3s}
+.rdot.lit .rc{fill:var(--marigold)}
+.rline{display:block;width:100%;max-width:220px;height:14px}
+.rline path{fill:none;stroke:var(--kumkum);stroke-width:3;stroke-linecap:round;stroke-dasharray:200;stroke-dashoffset:200;transition:stroke-dashoffset 1s ease}
+.rangoli.done .rline path{stroke-dashoffset:0}
+
+.holdbtn{background:none;border:0;cursor:pointer;padding:4px;touch-action:none}
+.holdbtn svg{width:70px;height:auto;display:block}
+.holdbtn .flame{transform-origin:30px 20px}
+@media (prefers-reduced-motion:no-preference){.holdbtn.holding .flame{animation:flicker2 .5s ease-in-out infinite}}
+@keyframes flicker2{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.1,.9) rotate(3deg)}}
+
+.cheerbtn{background:var(--gold);border:3px solid var(--ink);border-radius:999px;padding:8px 20px 6px;font-family:var(--display);font-weight:800;cursor:pointer;box-shadow:0 4px 0 var(--ink)}
+.cheerbtn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.cheerbtn[disabled]{opacity:.6;cursor:default}
+.meter{height:14px;width:100%;max-width:240px;border-radius:999px;background:#E7E2CE;border:2px solid var(--ink);overflow:hidden}
+.meter-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--marigold),var(--kumkum));transition:width .25s ease}
+
+.lights{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:6px}
+.lights li{display:grid;grid-template-columns:18px 1fr;gap:8px;color:#3A3566;font-size:.98rem;line-height:1.4}
+.lights li::before{content:"";width:12px;height:12px;margin-top:5px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--marigold);box-shadow:0 0 0 2px var(--line)}
+.lights b{color:var(--ink)}
+
+.harbour{margin-top:16px;border-radius:16px;background:linear-gradient(180deg,#2A6FD0,#173E86);border:3px solid var(--line);padding:14px 10px 18px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;overflow:hidden;position:relative}
+.harbour::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='16'%3E%3Cpath d='M0 8 q10 -8 20 0 t20 0' fill='none' stroke='%238CC4FF' stroke-width='3'/%3E%3C/svg%3E") repeat-x;pointer-events:none}
+.boat{background:none;border:0;cursor:pointer;display:grid;justify-items:center;gap:2px;padding:2px;border-radius:12px;transition:transform 1.6s cubic-bezier(.5,0,.8,.4),opacity 1.4s ease}
+.boat svg{width:64px;height:auto}
+.boat span{font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;color:#fff;line-height:1.25;text-align:center;font-weight:600}
+@media (prefers-reduced-motion:no-preference){.boat:not(.gone) svg{animation:rock 2.4s ease-in-out infinite}}
+.boat:nth-child(2) svg{animation-delay:-.6s}.boat:nth-child(3) svg{animation-delay:-1.2s}.boat:nth-child(4) svg{animation-delay:-1.8s}
+@keyframes rock{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg) translateY(2px)}}
+.boat.gone{transform:translate(60px,30px) rotate(20deg) scale(.4);opacity:0;pointer-events:none}
+.wish{margin-top:14px;font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--ink);min-height:3em}
+.wish.done{color:var(--kumkum)}
+
+/* ============ finale ============ */
+.finale{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--night) 0%,#173E86 70%,#2A6FD0 100%);padding-block:90px 0;text-align:center}
+.finale .inner{max-width:52rem;margin-inline:auto;padding-inline:20px}
+.finale h2{font-size:clamp(2.6rem,7vw,5.4rem);font-weight:800}
+.finale .deva{font-size:clamp(1.5rem,3.6vw,2.4rem);color:var(--gold);margin-top:8px;text-shadow:2px 2px 0 #000}
+.finale p.lead{margin:16px auto 0;max-width:36rem;color:var(--soft)}
+.chant{display:inline-block;margin-top:22px;font-family:var(--display);font-weight:800;font-size:clamp(1.2rem,2.6vw,1.7rem);background:var(--gold);color:var(--night);border:3px solid #000;border-radius:14px;padding:6px 18px 2px;transform:rotate(-2deg);box-shadow:0 5px 0 #000}
+.finale svg{display:block;width:100%;height:clamp(110px,16vw,190px);margin-top:40px}
+footer{background:#173E86;color:#DCE6FF;padding-block:8px 34px;font-size:.9rem}
+footer .inner{max-width:1100px;margin-inline:auto;padding-inline:20px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;align-items:baseline}
+footer a{color:#FFE6A3}
+footer .src{display:flex;flex-wrap:wrap;gap:2px 14px}
+footer .love{font-family:var(--hand);font-size:1.1rem;color:#fff}
+
+/* ============ responsive ============ */
+@media (max-width:860px){
+  .story{grid-template-columns:1fr}
+  .stage{height:50vh;height:50svh;z-index:5;border-bottom:3px solid var(--gold)}
+  .chapter{min-height:92vh;min-height:92svh;align-content:start;padding-block:36px 80px}
+  .chapter.intro{padding-top:30px}
+  .cap{top:10px;left:10px;font-size:.66rem;padding:3px 10px 2px}
+  .sound{top:8px;right:8px;padding:3px 10px 1px;font-size:.9rem}
+  .rail{right:6px;padding:4px 2px;gap:0}
+  .rail button{width:26px;height:22px}
+  .rail svg{width:22px;height:19px}
+  .shelf{bottom:8px;padding:4px 6px 2px;gap:0}
+  .slot{width:28px}
+  .slot svg{width:20px;height:26px}
+  .slot span{font-size:.5rem}
+  .stamp{top:16%;left:6%}
+  .bubble{font-size:1.2rem}
+}
+@media (max-width:480px){
+  .harbour{grid-template-columns:repeat(2,1fr)}
+  .stub{padding-inline:18px}
+  .tbody{padding-inline:18px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+
+<!-- shared symbols -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="mushak-face" viewBox="0 0 60 60">
+      <circle cx="30" cy="32" r="26" fill="#1D5FD6" stroke="#FFC93C" stroke-width="3"/>
+      <circle cx="17" cy="22" r="8" fill="#FF9EAE" stroke="#2A2250" stroke-width="2.5"/>
+      <circle cx="43" cy="22" r="8" fill="#FF9EAE" stroke="#2A2250" stroke-width="2.5"/>
+      <ellipse cx="30" cy="36" rx="15" ry="13" fill="#A9B3D6" stroke="#2A2250" stroke-width="2.5"/>
+      <path d="M15 28 Q30 14 45 28 Z" fill="#1D5FD6" stroke="#2A2250" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M44 27 h9" stroke="#2A2250" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="30" cy="20" r="2" fill="#FFC93C"/>
+      <circle cx="25" cy="35" r="2.2" fill="#2A2250"/><circle cx="35" cy="35" r="2.2" fill="#2A2250"/>
+      <circle cx="30" cy="42" r="2.6" fill="#E0283C"/>
+      <path d="M26 46 q4 3 8 0" stroke="#2A2250" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <!-- IPL-style trophy: cup topped with an open ring cradling a ball -->
+    <symbol id="cup-ipl" viewBox="0 0 28 36">
+      <circle class="cupfill" cx="14" cy="7" r="5" fill="none" stroke-width="2"/>
+      <circle class="cupfill" cx="14" cy="7" r="2.1" stroke-width="1.2"/>
+      <path class="cupfill" d="M6 13 H22 V17 Q22 26 14 28 Q6 26 6 17 Z" stroke-width="1.8" stroke-linejoin="round"/>
+      <path class="cupfill" d="M12 28 H16 V31 H12 Z M7 31 H21 V33.2 H7 Z M5 33.2 H23 V35.5 H5 Z" stroke-width="1.5" stroke-linejoin="round"/>
+      <path class="shine" d="M8 15 L11 15 L8.5 25 L7 25 Z"/>
+    </symbol>
+    <!-- CLT20-style trophy: twin-handled urn -->
+    <symbol id="cup-clt" viewBox="0 0 28 36">
+      <path class="cupfill" d="M9 4 Q9 9 6 12 Q1 16 4 21 Q7 25 10 22" fill="none" stroke-width="1.8" stroke-linecap="round"/>
+      <path class="cupfill" d="M19 4 Q19 9 22 12 Q27 16 24 21 Q21 25 18 22" fill="none" stroke-width="1.8" stroke-linecap="round"/>
+      <path class="cupfill" d="M9 9 H19 V16 Q19 25 14 27 Q9 25 9 16 Z" stroke-width="1.8" stroke-linejoin="round"/>
+      <path class="cupfill" d="M12 27 H16 V30 H12 Z M7 30 H21 V32.4 H7 Z M5 32.4 H23 V35 H5 Z" stroke-width="1.5" stroke-linejoin="round"/>
+      <path class="shine" d="M10.5 12 L13 12 L11 24 L9.7 24 Z"/>
+    </symbol>
+    <!-- WPL-style trophy: cup with a cut star -->
+    <symbol id="cup-wpl" viewBox="0 0 28 36">
+      <path class="cupfill" d="M6 8 H22 V14 Q22 24 14 26 Q6 24 6 14 Z" stroke-width="1.8" stroke-linejoin="round"/>
+      <path class="cupstar" d="M14 11.5l1.7 3.5 3.8.5-2.8 2.7.7 3.8-3.4-1.8-3.4 1.8.7-3.8-2.8-2.7 3.8-.5z" stroke-width="1"/>
+      <path class="cupfill" d="M12 26 H16 V29 H12 Z M7 29 H21 V31.4 H7 Z M5 31.4 H23 V34 H5 Z" stroke-width="1.5" stroke-linejoin="round"/>
+      <path class="shine" d="M8 10 L10.5 10 L8.5 22 L7 22 Z"/>
+    </symbol>
+    <!-- An original Paltan crest — not the official mark: MI monogram + a champion's star + Bappa's trunk curl -->
+    <symbol id="paltan-crest" viewBox="0 0 100 116">
+      <path d="M50 4 L92 20 V56 C92 87 74 105 50 114 C26 105 8 87 8 56 V20 Z" fill="#1D5FD6" stroke="#0B1B4F" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M50 12 L84 25 V56 C84 81 70 96 50 104 C30 96 16 81 16 56 V25 Z" fill="#FFC93C" stroke="#0B1B4F" stroke-width="2.5"/>
+      <path d="M50 20l2.6 5.4 6 .8-4.4 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.4-4.2 6-.8z" fill="#E0283C" stroke="#0B1B4F" stroke-width="1.4" stroke-linejoin="round"/>
+      <text x="50" y="76" text-anchor="middle" font-family="Baloo 2, Mukta, sans-serif" font-weight="800" font-size="34" fill="#0B1B4F">MI</text>
+      <path d="M36 84c0 8-5 11-8 13-2 1 1 4 3 2M64 84c0 8 5 11 8 13 2 1-1 4-3 2" fill="none" stroke="#0B1B4F" stroke-width="3.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="wish-seal" viewBox="0 0 70 70">
+      <circle cx="35" cy="35" r="32" fill="#FFC93C" stroke="#2A2250" stroke-width="3"/>
+      <circle cx="35" cy="35" r="24" fill="none" stroke="#E0283C" stroke-width="2" stroke-dasharray="3 4"/>
+      <path d="M35 20 C35 30 29 34 25 36 C22 38 26 42 29 39 M35 20 C35 30 41 34 45 36 C48 38 44 42 41 39" fill="none" stroke="#2A2250" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="35" cy="18" r="4.5" fill="#2A2250"/>
+      <circle cx="35" cy="18" r="1.6" fill="#FFC93C"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ================= LED MARQUEE ================= -->
+<div class="ledwrap" aria-hidden="true">
+  <div class="ledtrack" id="ledtrack"></div>
+</div>
+
+<main>
+<div class="story">
+
+  <!-- ================= STAGE ================= -->
+  <div class="stage" id="stage" data-scene="mumbai" data-prop="modak" aria-label="Animated stage: Bappa's pandal inside a cricket stadium">
+    <svg class="scene" id="scene" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#FFE38A"/><stop offset=".7" stop-color="#FFC93C"/><stop offset="1" stop-color="#FF8A00"/>
+        </radialGradient>
+        <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#FFF3B0" stop-opacity=".95"/><stop offset="1" stop-color="#FFC93C" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFF8D6" stop-opacity=".55"/><stop offset="1" stop-color="#FFF8D6" stop-opacity="0"/>
+        </linearGradient>
+        <pattern id="crowdA" width="18" height="14" patternUnits="userSpaceOnUse">
+          <circle cx="4" cy="7" r="3.2" fill="#FFC93C"/><circle cx="13" cy="5" r="3.2" fill="#6FA4FF"/><circle cx="9" cy="12" r="2.6" fill="#FFFFFF" opacity=".8"/>
+        </pattern>
+        <pattern id="crowdB" width="20" height="16" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="8" r="3.8" fill="#1D5FD6"/><circle cx="15" cy="6" r="3.8" fill="#FF8A00"/><circle cx="11" cy="14" r="3" fill="#FFC93C"/>
+        </pattern>
+      </defs>
+
+      <!-- stars -->
+      <g fill="#FFF6C8" opacity=".85">
+        <circle cx="60" cy="60" r="2"/><circle cx="180" cy="120" r="1.5"/><circle cx="420" cy="70" r="2"/><circle cx="520" cy="150" r="1.5"/><circle cx="300" cy="40" r="1.6"/><circle cx="110" cy="230" r="1.4"/><circle cx="480" cy="260" r="1.6"/>
+      </g>
+
+      <!-- ===== city backdrops ===== -->
+      <g fill="rgba(10,16,48,.55)">
+        <!-- Mumbai: Gateway, towers, sea link -->
+        <g class="bd bd-mumbai">
+          <rect x="170" y="400" width="36" height="150"/><rect x="212" y="370" width="44" height="180"/><rect x="262" y="420" width="30" height="130"/>
+          <rect x="330" y="390" width="40" height="160"/><rect x="376" y="430" width="30" height="120"/>
+          <path d="M20 550 V470 H40 V450 q10 -18 20 0 V470 H130 V450 q10 -18 20 0 V470 H160 V550 H112 V506 Q90 474 68 506 V550 Z"/>
+          <path d="M470 550 L490 380 L510 550 Z"/>
+          <path d="M490 385 L430 540 M490 385 L450 540 M490 385 L530 540 M490 385 L560 540 M490 385 L590 540" stroke="rgba(10,16,48,.55)" stroke-width="3"/>
+          <rect x="420" y="536" width="200" height="8"/>
+          <g fill="#FFD66B" opacity=".9"><rect x="222" y="390" width="6" height="8"/><rect x="238" y="420" width="6" height="8"/><rect x="340" y="410" width="6" height="8"/><rect x="354" y="450" width="6" height="8"/><rect x="180" y="430" width="6" height="8"/></g>
+        </g>
+        <!-- Chennai-ish: palms + low city -->
+        <g class="bd bd-chennai">
+          <rect x="40" y="470" width="80" height="80"/><rect x="130" y="440" width="50" height="110"/><rect x="420" y="450" width="60" height="100"/><rect x="490" y="480" width="80" height="70"/>
+          <path d="M250 550 Q256 480 240 430" stroke="rgba(10,16,48,.55)" stroke-width="9" fill="none"/>
+          <path d="M240 430 q-40 -6 -60 20 q30 -8 60 -20 q-20 -30 -50 -30 q30 12 50 30 q10 -34 40 -44 q-10 30 -40 44 q40 -10 60 14 q-34 0 -60 -14z"/>
+          <path d="M360 550 Q354 490 372 450" stroke="rgba(10,16,48,.55)" stroke-width="8" fill="none"/>
+          <path d="M372 450 q-36 -4 -52 18 q26 -8 52 -18 q-14 -28 -42 -28 q26 10 42 28 q12 -30 38 -38 q-10 26 -38 38 q36 -8 52 12 q-30 0 -52 -12z"/>
+        </g>
+        <!-- Kolkata: Howrah Bridge -->
+        <g class="bd bd-kolkata">
+          <path d="M30 540 H570" stroke="rgba(10,16,48,.55)" stroke-width="10"/>
+          <path d="M150 540 V380 M450 540 V380" stroke="rgba(10,16,48,.55)" stroke-width="12"/>
+          <path d="M30 540 L150 380 Q300 450 450 380 L570 540" stroke="rgba(10,16,48,.55)" stroke-width="8" fill="none"/>
+          <path d="M60 540 L100 446 M100 540 L130 404 M100 446 L130 540 M180 540 L200 400 M200 400 L240 540 M240 420 L280 540 M300 440 L320 540 M360 430 L330 540 M400 412 L370 540 M420 400 L400 540 M480 420 L520 540 M500 446 L470 540" stroke="rgba(10,16,48,.55)" stroke-width="4"/>
+        </g>
+        <!-- Hyderabad: Charminar -->
+        <g class="bd bd-hyderabad">
+          <path fill-rule="evenodd" d="M226 550 V440 H374 V550 Z M272 550 V486 Q300 446 328 486 V550 Z"/>
+          <rect x="236" y="418" width="128" height="22"/>
+          <rect x="214" y="330" width="20" height="220"/><rect x="366" y="330" width="20" height="220"/>
+          <circle cx="224" cy="326" r="11"/><circle cx="376" cy="326" r="11"/>
+          <rect x="208" y="380" width="32" height="6"/><rect x="360" y="380" width="32" height="6"/>
+          <rect x="208" y="430" width="32" height="6"/><rect x="360" y="430" width="32" height="6"/>
+          <path d="M280 418 q20 -26 40 0 Z"/>
+          <rect x="60" y="480" width="70" height="70"/><rect x="460" y="470" width="90" height="80"/>
+        </g>
+        <!-- Dubai: Burj Khalifa + dunes -->
+        <g class="bd bd-dubai">
+          <path d="M400 550 V380 H408 V320 H414 V270 H418 V220 H421 V170 H423 V220 H426 V270 H430 V320 H436 V380 H444 V550 Z"/>
+          <rect x="460" y="440" width="40" height="110"/><rect x="340" y="460" width="44" height="90"/><rect x="120" y="470" width="50" height="80"/>
+          <path d="M170 550 V430 q20 -30 40 0 V550 Z"/>
+          <path d="M0 560 Q120 500 240 540 Q380 500 600 550 V600 H0 Z"/>
+          <g fill="#FFD66B" opacity=".9"><rect x="419" y="300" width="4" height="6"/><rect x="419" y="360" width="4" height="6"/><rect x="419" y="420" width="4" height="6"/></g>
+        </g>
+        <!-- Chowpatty: Marine Drive at night -->
+        <g class="bd bd-chowpatty">
+          <rect x="-400" y="470" width="80" height="80"/><rect x="-310" y="490" width="60" height="60"/><rect x="-240" y="460" width="50" height="90"/><rect x="-180" y="484" width="90" height="66"/><rect x="-80" y="470" width="70" height="80"/><rect x="610" y="470" width="60" height="80"/><rect x="680" y="490" width="80" height="60"/><rect x="770" y="460" width="50" height="90"/><rect x="830" y="484" width="90" height="66"/><rect x="930" y="470" width="70" height="80"/><rect x="0" y="480" width="60" height="70"/><rect x="66" y="460" width="40" height="90"/><rect x="112" y="490" width="70" height="60"/><rect x="190" y="470" width="44" height="80"/><rect x="240" y="500" width="80" height="50"/><rect x="330" y="466" width="40" height="84"/><rect x="376" y="488" width="70" height="62"/><rect x="452" y="456" width="44" height="94"/><rect x="502" y="484" width="98" height="66"/>
+          <path d="M-400 590 Q300 500 1000 580" stroke="#FFC93C" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 14" fill="none"/>
+          <g fill="#FF6FA0" opacity=".25"><circle cx="120" cy="600" r="70"/><circle cx="480" cy="610" r="80"/></g>
+        </g>
+      </g>
+
+      <!-- ===== stadium ===== -->
+      <g class="stadium">
+        <polygon class="beam-l" points="45,318 -120,800 240,800" fill="url(#beam)"/>
+        <polygon class="beam-r" points="555,318 360,800 720,800" fill="url(#beam)"/>
+        <g fill="#0A1030">
+          <rect x="40" y="320" width="10" height="260"/><rect x="18" y="290" width="54" height="36" rx="5"/>
+          <rect x="550" y="320" width="10" height="260"/><rect x="528" y="290" width="54" height="36" rx="5"/>
+        </g>
+        <g fill="#FFF6C8">
+          <circle cx="30" cy="302" r="4"/><circle cx="45" cy="302" r="4"/><circle cx="60" cy="302" r="4"/><circle cx="30" cy="315" r="4"/><circle cx="45" cy="315" r="4"/><circle cx="60" cy="315" r="4"/>
+          <circle cx="540" cy="302" r="4"/><circle cx="555" cy="302" r="4"/><circle cx="570" cy="302" r="4"/><circle cx="540" cy="315" r="4"/><circle cx="555" cy="315" r="4"/><circle cx="570" cy="315" r="4"/>
+        </g>
+        <path d="M-400 620 Q-200 590 -10 590 Q300 520 610 590 Q800 590 1000 620 V800 H-400 Z" fill="#0E1C52"/>
+        <g class="crowd-wave"><path d="M-400 626 Q-200 596 -10 596 Q300 528 610 596 Q800 596 1000 626 V690 Q800 660 610 660 Q300 600 -10 660 Q-200 660 -400 690 Z" fill="url(#crowdA)"/></g>
+        <path d="M-400 680 Q-200 650 -10 650 Q300 596 610 650 Q800 650 1000 680 V800 H-400 Z" fill="#13296E"/>
+        <g class="crowd-wave" style="animation-delay:-.8s"><path d="M-400 686 Q-200 656 -10 656 Q300 604 610 656 Q800 656 1000 686 V746 Q800 716 610 716 Q300 670 -10 716 Q-200 716 -400 746 Z" fill="url(#crowdB)"/></g>
+        <path d="M-400 740 Q-200 712 -10 712 Q300 668 610 712 Q800 712 1000 740 V800 H-400 Z" fill="#2E9E4F"/>
+        <path d="M-10 760 Q300 720 610 760" stroke="#58C27A" stroke-width="3" fill="none" stroke-dasharray="14 12"/>
+      </g>
+
+      <!-- ===== pandal arch ===== -->
+      <g stroke="#2A2250" stroke-width="4" stroke-linejoin="round">
+        <rect x="112" y="300" width="28" height="440" fill="#E0283C"/>
+        <rect x="460" y="300" width="28" height="440" fill="#E0283C"/>
+        <rect x="104" y="290" width="44" height="18" rx="4" fill="#FFC93C"/>
+        <rect x="452" y="290" width="44" height="18" rx="4" fill="#FFC93C"/>
+        <rect x="104" y="720" width="44" height="22" rx="4" fill="#FFC93C"/>
+        <rect x="452" y="720" width="44" height="22" rx="4" fill="#FFC93C"/>
+        <path d="M126 292 Q126 196 300 182 Q474 196 474 292" fill="none" stroke="#2A2250" stroke-width="24"/>
+      </g>
+      <path d="M126 292 Q126 196 300 182 Q474 196 474 292" fill="none" stroke="#FFC93C" stroke-width="16"/>
+      <path d="M126 292 Q126 196 300 182 Q474 196 474 292" fill="none" stroke="#FF8A00" stroke-width="10" stroke-dasharray="0.1 13" stroke-linecap="round"/>
+      <path d="M140 300 Q300 360 460 300" fill="none" stroke="#FF8A00" stroke-width="12" stroke-dasharray="0.1 12" stroke-linecap="round"/>
+      <path d="M140 300 Q300 360 460 300" fill="none" stroke="#FFC93C" stroke-width="5" stroke-dasharray="0.1 12" stroke-linecap="round"/>
+      <g fill="#3FBF6A" stroke="#1E6B3A" stroke-width="1.5">
+        <path d="M200 320 q-6 12 0 24 q6 -12 0 -24z"/><path d="M250 334 q-6 12 0 24 q6 -12 0 -24z"/><path d="M300 338 q-6 12 0 24 q6 -12 0 -24z"/><path d="M350 334 q-6 12 0 24 q6 -12 0 -24z"/><path d="M400 320 q-6 12 0 24 q6 -12 0 -24z"/>
+      </g>
+      <g stroke="#2A2250" stroke-width="3.5" stroke-linejoin="round">
+        <path d="M282 170 q-4 -22 18 -26 q22 4 18 26 z" fill="#FFC93C"/>
+        <path d="M290 146 q10 -18 20 0" fill="#3FBF6A"/>
+        <circle cx="300" cy="136" r="5" fill="#E0283C"/>
+      </g>
+      <!-- the Paltan crest, hung at the top of the pandal like a team medallion -->
+      <use href="#paltan-crest" x="282" y="92" width="36" height="42"/>
+
+      <!-- ===== Bappa ===== -->
+      <g class="bappa-hit" id="bappaHit" tabindex="0" role="button" aria-label="Tap Bappa to say Morya">
+        <g transform="translate(140 330)">
+          <circle class="halo-glow" cx="160" cy="138" r="170" fill="url(#glow)"/>
+          <g class="rays"><g fill="#FFC93C" opacity=".5">
+            <path d="M160 150 L150 10 L170 10 Z"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(30 160 150)"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(60 160 150)"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(90 160 150)"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(120 160 150)"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(150 160 150)"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(180 160 150)"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(210 160 150)"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(240 160 150)"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(270 160 150)"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(300 160 150)"/><path d="M160 150 L150 10 L170 10 Z" transform="rotate(330 160 150)"/>
+          </g></g>
+          <circle class="halo-ring" cx="160" cy="138" r="104" fill="url(#halo)" stroke="#2A2250" stroke-width="4"/>
+          <circle cx="160" cy="138" r="90" fill="none" stroke="#FFF3C0" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
+
+          <g stroke="#2A2250" stroke-width="3">
+            <ellipse cx="160" cy="336" rx="126" ry="20" fill="#E0283C"/>
+            <path d="M56 328 Q76 294 108 322 Q130 290 160 320 Q190 290 212 322 Q244 294 264 328 Z" fill="#FF8FB1"/>
+          </g>
+
+          <g class="bappa-body">
+            <ellipse cx="160" cy="292" rx="98" ry="30" fill="#FFC93C" stroke="#2A2250" stroke-width="4"/>
+            <path d="M72 300 Q160 330 248 300" fill="none" stroke="#E0283C" stroke-width="6"/>
+            <ellipse cx="112" cy="304" rx="20" ry="11" fill="#FFBE98" stroke="#2A2250" stroke-width="3"/>
+            <ellipse cx="212" cy="302" rx="20" ry="11" fill="#FFBE98" stroke="#2A2250" stroke-width="3"/>
+
+            <!-- belly in jersey No. 1 -->
+            <ellipse cx="160" cy="236" rx="72" ry="64" fill="#1D5FD6" stroke="#2A2250" stroke-width="4"/>
+            <path d="M92 250 Q160 290 228 250" fill="none" stroke="#FFC93C" stroke-width="5" opacity=".7"/>
+            <path d="M126 180 L160 214 L194 180" fill="#FFBE98" stroke="#FFC93C" stroke-width="6" stroke-linejoin="round"/>
+            <text x="172" y="276" text-anchor="middle" font-family="Baloo 2, Mukta, sans-serif" font-weight="800" font-size="48" fill="#FFC93C" stroke="#2A2250" stroke-width="2">1</text>
+            <path d="M112 186 Q160 222 208 186" fill="none" stroke="#FFC93C" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="160" cy="210" r="6" fill="#E0283C" stroke="#2A2250" stroke-width="2.5"/>
+
+            <!-- left arm + modak plate -->
+            <path d="M104 196 Q70 214 74 252" fill="none" stroke="#2A2250" stroke-width="26" stroke-linecap="round"/>
+            <path d="M104 196 Q70 214 74 252" fill="none" stroke="#1D5FD6" stroke-width="19" stroke-linecap="round"/>
+            <path d="M84 228 Q72 240 74 252" fill="none" stroke="#FFBE98" stroke-width="19" stroke-linecap="round"/>
+            <ellipse cx="78" cy="262" rx="40" ry="10" fill="#FFC93C" stroke="#2A2250" stroke-width="3"/>
+            <g stroke="#2A2250" stroke-width="2.5" fill="#FFF3D6"><path d="M52 258 q8 -24 16 0 z"/><path d="M70 256 q9 -28 18 0 z"/><path d="M88 258 q8 -24 16 0 z"/></g>
+
+            <!-- dhol prop (front of belly) -->
+            <g class="prop p-dhol">
+              <rect x="112" y="228" width="96" height="52" rx="10" fill="#E0283C" stroke="#2A2250" stroke-width="4"/>
+              <ellipse cx="112" cy="254" rx="10" ry="26" fill="#FFF3D6" stroke="#2A2250" stroke-width="4"/>
+              <ellipse cx="208" cy="254" rx="10" ry="26" fill="#FFF3D6" stroke="#2A2250" stroke-width="4"/>
+              <path d="M122 232 L150 278 L178 232 L200 278" fill="none" stroke="#FFC93C" stroke-width="4"/>
+            </g>
+
+            <!-- raised right arm + props -->
+            <g class="raise">
+              <path d="M214 198 Q246 196 250 166" fill="none" stroke="#2A2250" stroke-width="26" stroke-linecap="round"/>
+              <path d="M214 198 Q240 198 246 184" fill="none" stroke="#1D5FD6" stroke-width="19" stroke-linecap="round"/>
+              <path d="M246 184 Q250 176 250 166" fill="none" stroke="#FFBE98" stroke-width="19" stroke-linecap="round"/>
+
+              <g class="prop p-wave"><path d="M234 162 q-2 -30 10 -32 q4 -10 10 -2 q8 -6 10 4 q8 0 6 12 l-2 20 q-2 10 -14 10 h-8 q-12 0 -12 -12 z" fill="#FFBE98" stroke="#2A2250" stroke-width="3"/><circle cx="251" cy="150" r="5" fill="#E0283C"/></g>
+
+              <g class="prop p-modak"><path d="M226 158 Q252 84 278 158 Z" fill="#FFF3D6" stroke="#2A2250" stroke-width="4" stroke-linejoin="round"/><path d="M252 100 V156 M240 126 L236 156 M264 126 L268 156" stroke="#E8B86B" stroke-width="3" fill="none"/></g>
+
+              <g class="prop p-durva"><path d="M252 160 C240 120 222 100 214 84 M252 160 C250 118 252 96 250 72 M252 160 C262 122 278 102 290 88 M252 160 C246 130 236 116 230 100 M252 160 C258 128 268 112 274 98" stroke="#3FBF6A" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="252" cy="158" r="8" fill="#E0283C" stroke="#2A2250" stroke-width="2.5"/></g>
+
+              <g class="prop p-bat"><rect x="244" y="54" width="18" height="96" rx="7" fill="#F2C98A" stroke="#2A2250" stroke-width="4" transform="rotate(18 252 150)"/><rect x="249" y="130" width="8" height="34" rx="3" fill="#E0283C" stroke="#2A2250" stroke-width="3" transform="rotate(18 252 150)"/></g>
+
+              <g class="prop p-diya"><path d="M222 148 Q252 172 282 148 Q276 138 252 138 Q228 138 222 148 Z" fill="#C8642A" stroke="#2A2250" stroke-width="4" stroke-linejoin="round"/><path d="M252 136 Q238 116 252 94 Q266 116 252 136 Z" fill="#FFC93C" stroke="#FF8A00" stroke-width="3"/><path d="M252 132 Q246 120 252 108 Q258 120 252 132 Z" fill="#FFF6C8"/></g>
+
+              <g class="prop p-gold">
+                <path d="M226 64 q-14 0 -12 14 q2 12 16 14 M278 64 q14 0 12 14 q-2 12 -16 14" fill="none" stroke="#2A2250" stroke-width="5"/>
+                <path d="M226 56 H278 V74 Q278 104 252 110 Q226 104 226 74 Z" fill="#FFC93C" stroke="#2A2250" stroke-width="4" stroke-linejoin="round"/>
+                <rect x="246" y="110" width="12" height="14" fill="#FFC93C" stroke="#2A2250" stroke-width="3.5"/>
+                <rect x="232" y="124" width="40" height="16" rx="3" fill="#1D5FD6" stroke="#2A2250" stroke-width="3.5"/>
+                <path d="M236 64 V78 Q238 92 246 98" stroke="#fff" stroke-width="4" fill="none" opacity=".7" stroke-linecap="round"/>
+              </g>
+              <g class="prop p-silver">
+                <path d="M226 64 q-14 0 -12 14 q2 12 16 14 M278 64 q14 0 12 14 q-2 12 -16 14" fill="none" stroke="#2A2250" stroke-width="5"/>
+                <path d="M226 56 H278 V74 Q278 104 252 110 Q226 104 226 74 Z" fill="#DCE4F2" stroke="#2A2250" stroke-width="4" stroke-linejoin="round"/>
+                <rect x="246" y="110" width="12" height="14" fill="#DCE4F2" stroke="#2A2250" stroke-width="3.5"/>
+                <rect x="232" y="124" width="40" height="16" rx="3" fill="#1D5FD6" stroke="#2A2250" stroke-width="3.5"/>
+                <path d="M236 64 V78 Q238 92 246 98" stroke="#fff" stroke-width="4" fill="none" opacity=".9" stroke-linecap="round"/>
+              </g>
+              <g class="prop p-ribbon">
+                <path d="M226 56 H278 V74 Q278 104 252 110 Q226 104 226 74 Z" fill="#FFC93C" stroke="#2A2250" stroke-width="4" stroke-linejoin="round"/>
+                <path d="M236 96 l-14 28 l9 -3 l5 9 l8 -30 M268 96 l14 28 l-9 -3 l-5 9 l-8 -30" fill="#FF6FA0" stroke="#2A2250" stroke-width="3" stroke-linejoin="round"/>
+                <rect x="246" y="110" width="12" height="14" fill="#FFC93C" stroke="#2A2250" stroke-width="3.5"/>
+                <rect x="232" y="124" width="40" height="16" rx="3" fill="#1D5FD6" stroke="#2A2250" stroke-width="3.5"/>
+              </g>
+            </g>
+
+            <!-- head -->
+            <g>
+              <g class="ear-l"><path d="M118 96 Q56 70 52 128 Q54 172 112 156 Z" fill="#FFBE98" stroke="#2A2250" stroke-width="4" stroke-linejoin="round"/><path d="M112 106 Q70 90 68 128 Q70 156 108 146 Z" fill="#FF9EAE"/></g>
+              <g class="ear-r"><path d="M202 96 Q264 70 268 128 Q266 172 208 156 Z" fill="#FFBE98" stroke="#2A2250" stroke-width="4" stroke-linejoin="round"/><path d="M208 106 Q250 90 252 128 Q250 156 212 146 Z" fill="#FF9EAE"/></g>
+              <circle cx="160" cy="126" r="58" fill="#FFBE98" stroke="#2A2250" stroke-width="4"/>
+              <path d="M114 86 L122 42 L140 58 L160 12 L180 58 L198 42 L206 86 Z" fill="#FFC93C" stroke="#2A2250" stroke-width="4" stroke-linejoin="round"/>
+              <rect x="108" y="78" width="104" height="18" rx="8" fill="#1D5FD6" stroke="#2A2250" stroke-width="4"/>
+              <circle cx="160" cy="87" r="5" fill="#FFC93C"/><circle cx="136" cy="87" r="3.5" fill="#FFC93C"/><circle cx="184" cy="87" r="3.5" fill="#FFC93C"/>
+              <circle cx="160" cy="54" r="7" fill="#E0283C" stroke="#2A2250" stroke-width="2.5"/>
+              <circle cx="160" cy="10" r="5" fill="#FFC93C" stroke="#2A2250" stroke-width="2.5"/>
+              <path d="M152 100 Q160 114 168 100" fill="none" stroke="#E0283C" stroke-width="3.5" stroke-linecap="round"/>
+              <circle cx="160" cy="112" r="3" fill="#E0283C"/>
+              <path d="M126 106 q10 -6 20 0 M174 106 q10 -6 20 0" stroke="#2A2250" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <g class="eyes">
+                <ellipse cx="137" cy="122" rx="8" ry="10" fill="#2A2250"/><ellipse cx="183" cy="122" rx="8" ry="10" fill="#2A2250"/>
+                <circle cx="140" cy="118" r="3" fill="#FFFFFF"/><circle cx="186" cy="118" r="3" fill="#FFFFFF"/>
+              </g>
+              <ellipse cx="120" cy="146" rx="10" ry="6" fill="#FF7F9E" opacity=".55"/><ellipse cx="200" cy="146" rx="10" ry="6" fill="#FF7F9E" opacity=".55"/>
+              <path d="M172 160 Q184 170 196 156" fill="none" stroke="#2A2250" stroke-width="3" stroke-linecap="round"/>
+              <path d="M176 150 q14 4 16 18 q-12 -2 -18 -12 z" fill="#FFFFFF" stroke="#2A2250" stroke-width="2.5" stroke-linejoin="round"/>
+              <g class="trunk">
+                <path d="M160 132 C160 168 150 192 130 202 C114 210 102 196 114 186" fill="none" stroke="#2A2250" stroke-width="30" stroke-linecap="round"/>
+                <path d="M160 132 C160 168 150 192 130 202 C114 210 102 196 114 186" fill="none" stroke="#FFBE98" stroke-width="23" stroke-linecap="round"/>
+                <path d="M150 156 h18 M148 170 h16 M142 184 l14 4 M130 194 l6 10" stroke="#E79C78" stroke-width="2.5" stroke-linecap="round"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- Mushak in a Paltan cap -->
+          <g class="mushak">
+            <path d="M292 336 q24 -2 22 -22" fill="none" stroke="#2A2250" stroke-width="3" stroke-linecap="round"/>
+            <ellipse cx="274" cy="318" rx="26" ry="20" fill="#A9B3D6" stroke="#2A2250" stroke-width="3"/>
+            <circle cx="252" cy="306" r="15" fill="#A9B3D6" stroke="#2A2250" stroke-width="3"/>
+            <circle cx="246" cy="290" r="8" fill="#FF9EAE" stroke="#2A2250" stroke-width="3"/>
+            <circle cx="264" cy="292" r="8" fill="#FF9EAE" stroke="#2A2250" stroke-width="3"/>
+            <path d="M238 298 Q252 280 268 296 Z" fill="#1D5FD6" stroke="#2A2250" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M238 298 h-10" stroke="#2A2250" stroke-width="3.5" stroke-linecap="round"/>
+            <circle cx="248" cy="307" r="2.6" fill="#2A2250"/>
+            <circle cx="238" cy="312" r="3" fill="#E0283C"/>
+            <path d="M286 300 v-26" stroke="#2A2250" stroke-width="2.5"/>
+            <path d="M286 274 l22 6 l-22 7 z" fill="#FFC93C" stroke="#2A2250" stroke-width="2"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- ===== Chowpatty sea + procession ===== -->
+      <g class="sea">
+        <g class="procession" fill="#0A1030">
+          <circle cx="30" cy="640" r="12"/><rect x="18" y="650" width="24" height="60" rx="10"/><path d="M22 652 l-12 -28 M38 652 l12 -28" stroke="#0A1030" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="80" cy="650" r="11"/><rect x="69" y="660" width="22" height="50" rx="10"/>
+          <circle cx="530" cy="646" r="12"/><rect x="518" y="656" width="24" height="54" rx="10"/><path d="M522 658 l-12 -28 M538 658 l12 -28" stroke="#0A1030" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="575" cy="654" r="11"/><rect x="564" y="664" width="22" height="46" rx="10"/>
+        </g>
+        <path d="M120 700 Q300 740 480 700 L460 680 H140 Z" fill="#FF8A00" stroke="#2A2250" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M140 694 Q300 726 460 694" fill="none" stroke="#FFC93C" stroke-width="7" stroke-dasharray="0.1 14" stroke-linecap="round"/>
+        <g class="waves">
+          <path d="M-420 720 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 V800 H-420 Z" fill="#1F5CC0" stroke="#2A2250" stroke-width="3"/>
+          <path d="M-420 752 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#8CC4FF" stroke-width="4" stroke-linecap="round"/>
+        </g>
+      </g>
+    </svg>
+
+    <canvas id="fx" aria-hidden="true"></canvas>
+    <div class="pglow" id="pglow" aria-hidden="true"></div>
+    <p class="cap" id="cap" aria-live="polite"><b id="capDay">Prologue</b><span id="capPlace">Mumbai · 2026</span></p>
+    <button class="sound" id="soundBtn" type="button" aria-pressed="false">Dhol: off</button>
+    <ol class="rail" id="rail" aria-label="Jump to a day"></ol>
+    <div class="shelf" id="shelf" aria-label="Trophy shelf"></div>
+    <div class="stamp" id="stamp" aria-hidden="true"></div>
+    <div class="bubble" id="bubble" aria-hidden="true" lang="mr">मोरया!</div>
+  </div>
+
+  <!-- ================= CHAPTERS ================= -->
+  <div class="chapters">
+
+    <section class="chapter intro" id="day-0" data-day="0" data-scene="mumbai" data-prop="wave" data-cups="0" data-s1="#1B2A6B" data-s2="#F58A6B" data-cap="Prologue" data-place="Mumbai · Sept 2026">
+      <p class="kicker">Ganeshotsav 2026 · a story in ten days</p>
+      <h1>Bappa <span class="amp">&amp;</span> the <span class="blue">Paltan</span></h1>
+      <span class="crest-badge"><svg viewBox="0 0 100 116" aria-hidden="true"><use href="#paltan-crest"/></svg><span>Fan crest · not the official mark</span></span>
+      <p class="thesis">
+        <span><b>Ten</b> days of Ganeshotsav.</span>
+        <span><b>Nine</b> Mumbai Indians trophies.</span>
+        <span><b>One</b> wish.</span>
+      </p>
+      <p class="deva deva-big" lang="mr">गणपती बाप्पा मोरया!</p>
+      <div class="says">
+        <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+        <p><strong>Namaskar! I'm Mushak.</strong> I'm Bappa's ride, his official modak taster, and the smallest Mumbai Indians fan in the whole city. Bappa arrived on 14 September, and I have a plan. Every day of the festival I'll tell him one Paltan trophy story, and on the tenth day I'll ask him for a very big favour.</p>
+      </div>
+      <div class="hint">
+        <a class="go" href="#day-1">Start Day 1 ↓</a>
+        <span class="tip">Psst… tap Bappa. Turn the dhol on up top.</span>
+      </div>
+    </section>
+
+    <section class="chapter" id="day-1" data-day="1" data-scene="mumbai" data-prop="modak" data-cups="0" data-s1="#FF9A5A" data-s2="#FFE3A3" data-cap="Day 1" data-place="Wankhede · 2008">
+      <article class="ticket">
+        <div class="stub"><span>Day 01</span><span>Wankhede, Mumbai</span><span>2008</span></div>
+        <div class="tbody">
+          <p class="ritual"><span class="deva" lang="mr">स्थापना</span><span class="en">Sthapana · the welcome</span></p>
+          <h2>Everything starts with No. 1</h2>
+          <div class="says">
+            <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+            <p>Before any puja, people pray to Bappa first. He's <b>Prathama Pujya</b>, which is why his jersey says No. 1. The Paltan had its own first day in <b>2008</b>: a brand-new team in blue and gold, with Mumbai's own <b>Sachin Tendulkar</b> as captain. There were no trophies yet, just a beginning. And Bappa <i>loves</i> beginnings.</p>
+          </div>
+          <div class="mini" id="tossMini">
+            <p class="mini-q">Every match starts with a toss. Call it.</p>
+            <div class="toss-row">
+              <button class="mtbtn" type="button" data-call="heads">Heads</button>
+              <button class="mtbtn" type="button" data-call="tails">Tails</button>
+            </div>
+            <div class="coin" id="coin" aria-hidden="true">
+              <div class="coin-inner" id="coinInner">
+                <div class="coin-face heads"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="27" fill="#FFC93C" stroke="#2A2250" stroke-width="3"/><text x="30" y="40" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="28" fill="#2A2250">1</text></svg></div>
+                <div class="coin-face tails"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="27" fill="#1D5FD6" stroke="#2A2250" stroke-width="3"/><path d="M18 22 h24 M18 30 h24 M18 38 h16" stroke="#FFC93C" stroke-width="4" stroke-linecap="round"/></svg></div>
+              </div>
+            </div>
+            <p class="mini-result" id="tossResult">It's 2008, ball one. Heads or tails?</p>
+          </div>
+          <p class="blessing"><em>Blessing</em>Every big story needs a first step.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="chapter" id="day-2" data-day="2" data-scene="chennai" data-prop="durva" data-cups="1" data-s1="#0D1B4A" data-s2="#2E5AAC" data-cap="Day 2" data-place="Chennai · 2011">
+      <article class="ticket">
+        <div class="stub"><span>Day 02</span><span>Champions League T20 final</span><span>2011</span></div>
+        <div class="tbody">
+          <p class="ritual"><span class="deva" lang="mr">दुर्वा</span><span class="en">Durva · 21 blades of grass</span></p>
+          <h2>The first trophy came from a stand-in</h2>
+          <div class="says">
+            <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+            <p>Bappa's favourite offering isn't gold. It's <b>durva</b>, 21 little blades of plain green grass. In <b>2011</b>, with <b>Harbhajan Singh</b> leading as stand-in captain, the Paltan went to Chennai and won the <b>Champions League T20</b>. Our very first trophy came when nobody expected it.</p>
+          </div>
+          <div class="mini" id="quiz2">
+            <p class="mini-q">Quick one — who captained that first trophy?</p>
+            <div class="quiz-row">
+              <button class="qbtn" type="button" data-right="false">Rohit Sharma</button>
+              <button class="qbtn" type="button" data-right="true">Harbhajan Singh</button>
+              <button class="qbtn" type="button" data-right="false">Sachin Tendulkar</button>
+            </div>
+            <p class="mini-result" id="quiz2Result">Tap a name.</p>
+          </div>
+          <p class="blessing"><em>Blessing</em>Small offerings count. So do stand-ins.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="chapter" id="day-3" data-day="3" data-scene="kolkata" data-prop="dhol" data-cups="3" data-s1="#3A1C6B" data-s2="#FF7A59" data-cap="Day 3" data-place="Kolkata &amp; Delhi · 2013">
+      <article class="ticket">
+        <div class="stub"><span>Day 03</span><span>Eden Gardens + Delhi</span><span>2013</span></div>
+        <div class="tbody">
+          <p class="ritual"><span class="deva" lang="mr">ढोल-ताशा</span><span class="en">Dhol-tasha · the beat</span></p>
+          <h2>The year the Paltan found its rhythm</h2>
+          <div class="says">
+            <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+            <p>You hear Ganeshotsav before you see it: <i>dha-dhin-dhin-dha!</i> In <b>2013</b>, <b>Rohit Sharma</b> became captain partway through the season. He led the Paltan to its first IPL title, beating CSK by 23 runs at Eden Gardens. Months later they also won the <b>Champions League T20</b> in Delhi, in Sachin's last T20 tournament. That's two cups in one year.</p>
+          </div>
+          <button class="tbtn" type="button" id="dholTicket" aria-pressed="false">Play the dhol</button>
+          <p class="blessing"><em>Blessing</em>When you find your rhythm, everyone dances with you.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="chapter" id="day-4" data-day="4" data-scene="kolkata" data-prop="bat" data-cups="4" data-s1="#FF9EB5" data-s2="#FFE0A8" data-cap="Day 4" data-place="Eden Gardens · 2015">
+      <article class="ticket">
+        <div class="stub"><span>Day 04</span><span>IPL final · Eden Gardens</span><span>2015</span></div>
+        <div class="tbody">
+          <p class="ritual"><span class="deva" lang="mr">रांगोळी</span><span class="en">Rangoli · dot by dot</span></p>
+          <h2>A bad start is just the first dot</h2>
+          <div class="says">
+            <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+            <p>Each morning the doorsteps bloom with <b>rangoli</b>, drawn one careful dot at a time. In <b>2015</b> the Paltan lost its first four games. Then they rebuilt the season match by match and beat <b>CSK by 41 runs</b> at Eden Gardens for title number two.</p>
+          </div>
+          <div class="mini rangoli" id="rangoliMini">
+            <p class="mini-q">Draw today's rangoli — tap every dot.</p>
+            <div class="rdots">
+              <button class="rdot" type="button" aria-label="Rangoli dot 1"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" class="rc"/></svg></button>
+              <button class="rdot" type="button" aria-label="Rangoli dot 2"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" class="rc"/></svg></button>
+              <button class="rdot" type="button" aria-label="Rangoli dot 3"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" class="rc"/></svg></button>
+              <button class="rdot" type="button" aria-label="Rangoli dot 4"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" class="rc"/></svg></button>
+              <button class="rdot" type="button" aria-label="Rangoli dot 5"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" class="rc"/></svg></button>
+            </div>
+            <svg class="rline" viewBox="0 0 200 20" aria-hidden="true"><path id="rlinePath" d="M10 10 H190"/></svg>
+            <p class="mini-result" id="rangoliResult">0 / 5 dots</p>
+          </div>
+          <p class="blessing"><em>Blessing</em>You can always redraw the pattern. <span style="white-space:nowrap">(Remember this for Day 10.)</span></p>
+        </div>
+      </article>
+    </section>
+
+    <section class="chapter" id="day-5" data-day="5" data-scene="hyderabad" data-prop="diya" data-cups="5" data-stamp="Won by 1 run" data-s1="#120B2E" data-s2="#6A2A6E" data-cap="Day 5" data-place="Hyderabad · 2017">
+      <article class="ticket">
+        <div class="stub"><span>Day 05</span><span>IPL final · Hyderabad</span><span>2017</span></div>
+        <div class="tbody">
+          <p class="ritual"><span class="deva" lang="mr">आरती</span><span class="en">Aarti · hold the flame</span></p>
+          <h2>Everyone held their breath</h2>
+          <div class="says">
+            <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+            <p>During aarti everyone goes quiet and watches one tiny flame, hoping the breeze behaves. That's exactly how the <b>2017</b> final felt. It came down to the last over against <b>Rising Pune Supergiant</b>, and the Paltan held its nerve to win by <b>one single run</b>. I didn't breathe for six balls.</p>
+          </div>
+          <div class="mini" id="holdMini">
+            <button class="holdbtn" type="button" id="holdBtn" aria-label="Press and hold to keep the flame steady">
+              <svg viewBox="0 0 60 70" aria-hidden="true">
+                <circle class="ring" cx="30" cy="40" r="26" fill="none" stroke="#FFC93C" stroke-width="4" stroke-dasharray="163.4" stroke-dashoffset="163.4" transform="rotate(-90 30 40)"/>
+                <path class="flame" d="M30 26 Q18 14 30 0 Q42 14 30 26 Z" fill="#FFC93C" stroke="#FF8A00" stroke-width="1.5"/>
+                <path d="M8 46 Q30 66 52 46 Q46 40 30 40 Q14 40 8 46 Z" fill="#C8642A" stroke="#2A2250" stroke-width="3"/>
+              </svg>
+            </button>
+            <p class="mini-result" id="holdResult">Press and hold. Six balls left. Don't let go.</p>
+          </div>
+          <p class="blessing"><em>Blessing</em>Keep the flame steady when it flickers.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="chapter" id="day-6" data-day="6" data-scene="hyderabad" data-prop="modak" data-cups="6" data-stamp="1 run · again!" data-s1="#0C2150" data-s2="#1F7A8C" data-cap="Day 6" data-place="Hyderabad · 2019">
+      <article class="ticket">
+        <div class="stub"><span>Day 06</span><span>IPL final · Hyderabad</span><span>2019</span></div>
+        <div class="tbody">
+          <p class="ritual"><span class="deva" lang="mr">मोदक</span><span class="en">Modak · the sweetest bite</span></p>
+          <h2>Last ball, two to win</h2>
+          <div class="says">
+            <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+            <p>Ukadiche modak is steamed and stuffed with coconut and jaggery. It's Bappa's favourite. My sweetest bite ever was the <b>2019</b> final against CSK. They needed two off the last ball. <b>Lasith Malinga</b> fired in a yorker, Shardul Thakur was out LBW, and the Paltan won by one run <i>again</i>. Fun twist: Shardul joined the Paltan in 2026!</p>
+          </div>
+          <p class="blessing"><em>Blessing</em>The sweetest things come tightly wrapped.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="chapter" id="day-7" data-day="7" data-scene="dubai" data-prop="gold" data-cups="7" data-stamp="5× champions" data-s1="#FF8A3D" data-s2="#3B1D5E" data-cap="Day 7" data-place="Dubai · 2020">
+      <article class="ticket">
+        <div class="stub"><span>Day 07</span><span>IPL final · Dubai</span><span>2020</span></div>
+        <div class="tbody">
+          <p class="ritual"><span class="deva" lang="mr">राजा</span><span class="en">Pandal-hopping · to the Raja</span></p>
+          <h2>Lalbaugcha Raja, meet Mumbai cha Raja</h2>
+          <div class="says">
+            <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+            <p>The queue for <b>Lalbaugcha Raja</b>, Mumbai's king since 1934, goes on for hours. The Paltan has its own king too: <b>Rohit Sharma</b>, "Mumbai cha Raja". In <b>2020</b> in Dubai, his 68 helped beat Delhi Capitals by 5 wickets. That was title No. 5, back to back, and nobody had ever won five before.</p>
+          </div>
+          <p class="blessing"><em>Blessing</em>A true Raja makes the whole city feel royal.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="chapter" id="day-8" data-day="8" data-scene="mumbai" data-prop="ribbon" data-cups="8" data-s1="#6B2270" data-s2="#FF6FA0" data-cap="Day 8" data-place="Brabourne · 2023">
+      <article class="ticket">
+        <div class="stub"><span>Day 08</span><span>WPL final · Brabourne</span><span>2023</span></div>
+        <div class="tbody">
+          <p class="ritual"><span class="deva" lang="mr">गौरी</span><span class="en">Gauri · Shakti comes home</span></p>
+          <h2>The first-ever WPL queens</h2>
+          <div class="says">
+            <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+            <p>During Ganeshotsav, <b>Gauri</b> (Bappa's mother) visits Maharashtrian homes, and the celebration gets even bigger. In <b>2023</b>, Mumbai's women took the field. <b>Harmanpreet Kaur</b>'s MI beat Delhi Capitals by 7 wickets at the Brabourne and became the <b>first-ever WPL champions</b>.</p>
+          </div>
+          <p class="blessing"><em>Blessing</em>Shakti wins finals.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="chapter" id="day-9" data-day="9" data-scene="mumbai" data-prop="ribbon" data-cups="9" data-s1="#0B1B4F" data-s2="#1553B8" data-cap="Day 9" data-place="Brabourne · 2025">
+      <article class="ticket">
+        <div class="stub"><span>Day 09</span><span>WPL final · Brabourne</span><span>2025</span></div>
+        <div class="tbody">
+          <p class="ritual"><span class="deva" lang="mr">जयघोष</span><span class="en">Jayghosh · the loud night</span></p>
+          <h2>Tomorrow is goodbye, so tonight is loud</h2>
+          <div class="says">
+            <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+            <p>On the last night every pandal is packed and the chants get louder. In <b>2025</b>, MI Women won the crown back, beating Delhi Capitals by 8 runs, with <b>Harmanpreet's 66</b> earning Player of the Match. The men made the playoffs too, and <b>Suryakumar Yadav</b> scored 717 runs, the most by an MI batter in one season. That's trophy number nine.</p>
+          </div>
+          <div class="mini" id="roarMini">
+            <button class="cheerbtn" type="button" id="cheerBtn">Cheer! 📣</button>
+            <div class="meter"><div class="meter-fill" id="meterFill"></div></div>
+            <p class="mini-result" id="roarResult">Tap to get the stadium loud.</p>
+          </div>
+          <p class="blessing"><em>Blessing</em>Shout loud enough and the whole city shouts back.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="chapter" id="day-10" data-day="10" data-scene="chowpatty" data-prop="wave" data-cups="9" data-s1="#0A1030" data-s2="#2A3F8F" data-cap="Day 10" data-place="Girgaon Chowpatty · 2026">
+      <article class="ticket">
+        <div class="stub"><span>Day 10</span><span>Girgaon Chowpatty</span><span>2026</span></div>
+        <div class="tbody">
+          <p class="ritual"><span class="deva" lang="mr">अनंत चतुर्दशी</span><span class="en">Anant Chaturdashi · visarjan</span></p>
+          <h2>Mushak's big wish</h2>
+          <div class="says">
+            <svg aria-hidden="true"><use href="#mushak-face"/></svg>
+            <p>Bappa leaves for the sea today, so I have to be honest with him. <b>IPL 2026 was rough.</b> We finished 9th with 4 wins and 10 losses. But there were little lights along the way:</p>
+          </div>
+          <ul class="lights">
+            <li><span><b>Ryan Rickelton</b> scored 123*, the highest score in Paltan history, and 448 runs overall.</span></li>
+            <li><span><b>Tilak Varma</b> scored his first IPL hundred.</span></li>
+            <li><span><b>Allah Ghazanfar</b> took 15 wickets, and MI became the first franchise to play 300 T20 matches.</span></li>
+          </ul>
+          <p style="margin-top:12px;color:#3A3566">Visarjan isn't sad. You let go so that something can come back. <b>Vighnaharta</b>, remover of obstacles, please take these with you. <b>Tap each boat.</b></p>
+          <div class="harbour" id="harbour">
+            <button class="boat" type="button" id="boat-1"><svg viewBox="0 0 64 40" aria-hidden="true"><path d="M4 22 H60 L50 36 H14 Z" fill="#FFF3D6" stroke="#2A2250" stroke-width="3" stroke-linejoin="round"/><path d="M20 22 L32 4 L44 22 Z" fill="#fff" stroke="#2A2250" stroke-width="3" stroke-linejoin="round"/></svg><span>Losing streak</span></button>
+            <button class="boat" type="button" id="boat-2"><svg viewBox="0 0 64 40" aria-hidden="true"><path d="M4 22 H60 L50 36 H14 Z" fill="#FFF3D6" stroke="#2A2250" stroke-width="3" stroke-linejoin="round"/><path d="M20 22 L32 4 L44 22 Z" fill="#fff" stroke="#2A2250" stroke-width="3" stroke-linejoin="round"/></svg><span>103-run loss</span></button>
+            <button class="boat" type="button" id="boat-3"><svg viewBox="0 0 64 40" aria-hidden="true"><path d="M4 22 H60 L50 36 H14 Z" fill="#FFF3D6" stroke="#2A2250" stroke-width="3" stroke-linejoin="round"/><path d="M20 22 L32 4 L44 22 Z" fill="#fff" stroke="#2A2250" stroke-width="3" stroke-linejoin="round"/></svg><span>Bumrah's quiet year</span></button>
+            <button class="boat" type="button" id="boat-4"><svg viewBox="0 0 64 40" aria-hidden="true"><path d="M4 22 H60 L50 36 H14 Z" fill="#FFF3D6" stroke="#2A2250" stroke-width="3" stroke-linejoin="round"/><path d="M20 22 L32 4 L44 22 Z" fill="#fff" stroke="#2A2250" stroke-width="3" stroke-linejoin="round"/></svg><span>9th on the table</span></button>
+          </div>
+          <p class="wish" id="wish" aria-live="polite">4 obstacles still on the shore.</p>
+
+          <div class="cert-form">
+            <div>
+              <label for="fanName">Your name (optional)</label>
+              <input id="fanName" type="text" maxlength="40" placeholder="A Paltan fan">
+            </div>
+            <div>
+              <label for="fanWish">Your wish for the Paltan</label>
+              <textarea id="fanWish" maxlength="140" placeholder="Trophy No. 10, please. And fewer 1-run heart attacks."></textarea>
+            </div>
+            <button class="sealbtn" type="button" id="sealBtn">Seal my wish 🪔</button>
+          </div>
+
+          <div class="cert" id="cert" aria-live="polite">
+            <span class="cert-corner tl"></span><span class="cert-corner tr"></span><span class="cert-corner bl"></span><span class="cert-corner br"></span>
+            <div class="cert-seal" id="certSeal"><svg viewBox="0 0 70 70" aria-hidden="true"><use href="#wish-seal"/></svg></div>
+            <p class="cert-kicker">Sealed &amp; sent · Ganeshotsav 2026</p>
+            <p class="cert-name" id="certName">— A Paltan fan</p>
+            <p class="cert-wish" id="certWish">"Trophy No. 10, please."</p>
+            <p class="cert-sign">Carried to sea by Mushak 🐭 · Duniya Hila Denge Hum</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</div>
+
+<!-- ================= FINALE ================= -->
+<section class="finale" id="finale">
+  <div class="inner">
+    <p class="kicker">Till next year</p>
+    <h2>Ganpati Bappa Morya!</h2>
+    <p class="deva" lang="mr">पुढच्या वर्षी लवकर या!</p>
+    <p class="lead">Come back soon next year, Bappa, and bring trophy No. 10 with you. Please pick eco-friendly shadu clay idols and artificial ponds, so the sea stays happy for Bappa too.</p>
+    <span class="chant">Duniya Hila Denge Hum!</span>
+  </div>
+  <svg viewBox="0 0 1200 190" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <g class="waves">
+      <path d="M0 80 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 V190 H0 Z" fill="#173E86" stroke="#0A1640" stroke-width="3"/>
+      <path d="M0 120 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#8CC4FF" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <g fill="#FF8A00" stroke="#0A1640" stroke-width="2"><circle cx="200" cy="110" r="8"/><circle cx="520" cy="130" r="7"/><circle cx="860" cy="116" r="8"/><circle cx="1040" cy="140" r="7"/></g>
+  </svg>
+</section>
+</main>
+
+<footer>
+  <div class="inner">
+    <p class="love">Made with modaks by Sneha · Ganeshotsav 2026</p>
+    <p class="src">Facts from:
+      <a href="https://en.wikipedia.org/wiki/Mumbai_Indians" rel="noopener">Mumbai Indians</a>
+      <a href="https://en.wikipedia.org/wiki/2026_Mumbai_Indians_season" rel="noopener">2026 season</a>
+      <a href="https://www.mumbaiindians.com/news/mumbai-indians-ipl-2026-retentions" rel="noopener">mumbaiindians.com</a>
+      <a href="https://www.olympics.com/en/news/indian-premier-league-ipl-winners-list-champions" rel="noopener">IPL winners</a>
+      <a href="https://www.olympics.com/en/news/women-premier-league-wpl-winners-list-champions" rel="noopener">WPL winners</a>
+      <a href="https://www.indiatvnews.com/lifestyle/spirituality/lalbaugcha-raja-2026-unveiled-first-look-at-mumbai-s-iconic-ganpati-idol-ahead-of-ganesh-chaturthi-2026-09-11-1053998" rel="noopener">Lalbaugcha Raja 2026</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var stage = document.getElementById('stage');
+  var chapters = Array.prototype.slice.call(document.querySelectorAll('.chapter'));
+
+  /* ---------- rail of diyas ---------- */
+  var rail = document.getElementById('rail');
+  var diya = '<svg viewBox="0 0 30 26" aria-hidden="true"><path class="flame" d="M15 13 Q9 7 15 0 Q21 7 15 13 Z" fill="#FFC93C" stroke="#FF8A00" stroke-width="1.5"/><path d="M3 15 Q15 27 27 15 Q23 12 15 12 Q7 12 3 15 Z" fill="#C8642A" stroke="#2A2250" stroke-width="2"/></svg>';
+  var railBtns = [];
+  for (var d = 1; d <= 10; d++) {
+    var li = document.createElement('li');
+    var b = document.createElement('button');
+    b.type = 'button'; b.id = 'rail-' + d;
+    b.setAttribute('aria-label', 'Go to day ' + d);
+    b.innerHTML = diya;
+    (function(n){ b.addEventListener('click', function(){ goTo(n); }); })(d);
+    li.appendChild(b); rail.appendChild(li); railBtns.push(b);
+  }
+  function goTo(n){
+    var el = document.getElementById('day-' + n);
+    var mobile = window.matchMedia('(max-width:860px)').matches;
+    var offset = mobile ? stage.offsetHeight - 10 : 0;
+    window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: reduce ? 'auto' : 'smooth'});
+  }
+
+  /* ---------- trophy shelf ---------- */
+  var cups = [['clt','2011'],['ipl','2013'],['clt','2013'],['ipl','2015'],['ipl','2017'],['ipl','2019'],['ipl','2020'],['wpl','2023'],['wpl','2025'],['mystery','20??']];
+  var shelf = document.getElementById('shelf');
+  var slots = cups.map(function(c){
+    var s = document.createElement('div');
+    s.className = 'slot ' + c[0];
+    var shape = c[0] === 'mystery' ? 'ipl' : c[0];
+    var q = c[0] === 'mystery' ? '<text class="q" x="14" y="17" text-anchor="middle" font-size="12">?</text>' : '';
+    s.innerHTML = '<svg viewBox="0 0 28 36" aria-hidden="true"><use href="#cup-' + shape + '"/>' + q + '</svg><span>' + c[1] + '</span>';
+    shelf.appendChild(s);
+    return s;
+  });
+
+  /* ---------- chapter activation ---------- */
+  var capDay = document.getElementById('capDay'), capPlace = document.getElementById('capPlace');
+  var stamp = document.getElementById('stamp');
+  var current = -1, maxCups = 0;
+  function activate(i){
+    if (i === current) return;
+    current = i;
+    var c = chapters[i].dataset;
+    stage.dataset.scene = c.scene;
+    stage.dataset.prop = c.prop;
+    stage.style.setProperty('--s1', c.s1);
+    stage.style.setProperty('--s2', c.s2);
+    capDay.textContent = c.cap;
+    capPlace.textContent = c.place.replace('&amp;', '&');
+    var day = +c.day, n = +c.cups;
+    railBtns.forEach(function(btn, k){
+      btn.classList.toggle('lit', k < day);
+      btn.classList.toggle('now', k === day - 1);
+    });
+    slots.forEach(function(s, k){
+      if (k < 9) s.classList.toggle('got', k < n);
+      s.classList.remove('fresh');
+    });
+    if (n > maxCups) {
+      for (var k = maxCups; k < n; k++) slots[k].classList.add('fresh');
+      burst(60);
+      maxCups = n;
+    }
+    slots[9].classList.toggle('glow', day === 10 || stage.classList.contains('blessed'));
+    stamp.classList.remove('on');
+    if (c.stamp) { stamp.textContent = c.stamp; void stamp.offsetWidth; stamp.classList.add('on'); }
+  }
+  activate(0);
+
+  var io;
+  function observe(){
+    if (io) io.disconnect();
+    var mobile = window.matchMedia('(max-width:860px)').matches;
+    io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) activate(chapters.indexOf(e.target)); });
+    }, {rootMargin: mobile ? '-68% 0px -30% 0px' : '-48% 0px -50% 0px'});
+    chapters.forEach(function(ch){ io.observe(ch); });
+  }
+  observe();
+  window.matchMedia('(max-width:860px)').addEventListener('change', observe);
+
+  /* ---------- canvas petals + confetti ---------- */
+  var cv = document.getElementById('fx'), g = cv.getContext('2d');
+  var W = 0, H = 0, parts = [];
+  var colors = ['#FFC93C','#FF8A00','#1D5FD6','#FFFFFF','#FF6FA0','#6FA4FF'];
+  function size(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = stage.clientWidth; H = stage.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Reframe the scene so Bappa stays whole on wide or short stages
+    var aspect = W / H, scene = document.getElementById('scene');
+    if (aspect > .82) {
+      var vh = 600, vw = Math.min(1300, vh * aspect);
+      scene.setAttribute('viewBox', (300 - vw / 2) + ' 170 ' + vw + ' ' + vh);
+    } else {
+      scene.setAttribute('viewBox', '0 0 600 800');
+    }
+  }
+  size();
+  window.addEventListener('resize', size);
+  function petal(y){
+    return {x: Math.random() * W, y: y, vx: (Math.random() - .5) * .3, vy: .35 + Math.random() * .5, r: 4 + Math.random() * 4, a: Math.random() * 6, va: (Math.random() - .5) * .05, c: Math.random() < .7 ? '#FF8A00' : '#FFC93C', petal: true};
+  }
+  function burst(n, x, y){
+    if (reduce) return;
+    x = x == null ? W * .5 : x; y = y == null ? H * .32 : y;
+    for (var i = 0; i < n; i++) {
+      var ang = Math.random() * Math.PI * 2, sp = 2 + Math.random() * 6;
+      parts.push({x: x, y: y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - 3, r: 3 + Math.random() * 4, a: Math.random() * 6, va: (Math.random() - .5) * .3, c: colors[i % colors.length], life: 120 + Math.random() * 60});
+    }
+  }
+  if (!reduce) {
+    for (var i = 0; i < 22; i++) parts.push(petal(Math.random() * 800));
+    (function tick(){
+      g.clearRect(0, 0, W, H);
+      for (var i = parts.length - 1; i >= 0; i--) {
+        var p = parts[i];
+        if (p.petal) {
+          p.x += p.vx + Math.sin(p.a) * .3; p.y += p.vy; p.a += p.va;
+          if (p.y > H + 10) { p.y = -10; p.x = Math.random() * W; }
+          g.save(); g.translate(p.x, p.y); g.rotate(p.a); g.fillStyle = p.c;
+          g.beginPath(); g.ellipse(0, 0, p.r, p.r * .55, 0, 0, Math.PI * 2); g.fill(); g.restore();
+        } else {
+          p.vy += .12; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.a += p.va; p.life--;
+          if (p.life <= 0 || p.y > H + 20) { parts.splice(i, 1); continue; }
+          g.save(); g.translate(p.x, p.y); g.rotate(p.a); g.fillStyle = p.c;
+          g.fillRect(-p.r, -p.r * .45, p.r * 2, p.r * .9); g.restore();
+        }
+      }
+      requestAnimationFrame(tick);
+    })();
+  }
+
+  /* ---------- dhol-tasha (Web Audio) ---------- */
+  var ac = null, loop = null, on = false;
+  var soundBtn = document.getElementById('soundBtn'), dholTicket = document.getElementById('dholTicket');
+  function ensureAudio(){
+    if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return false; } }
+    if (ac.state === 'suspended') ac.resume();
+    return true;
+  }
+  function boom(t, f0, f1, dur, vol){
+    var o = ac.createOscillator(), v = ac.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+    v.gain.setValueAtTime(vol, t); v.gain.exponentialRampToValueAtTime(.001, t + dur);
+    o.connect(v).connect(ac.destination); o.start(t); o.stop(t + dur + .02);
+  }
+  function tasha(t, vol){
+    var len = Math.floor(ac.sampleRate * .07), buf = ac.createBuffer(1, len, ac.sampleRate), ch = buf.getChannelData(0);
+    for (var i = 0; i < len; i++) ch[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+    var s = ac.createBufferSource(), f = ac.createBiquadFilter(), v = ac.createGain();
+    s.buffer = buf; f.type = 'bandpass'; f.frequency.value = 3400; f.Q.value = 1.1; v.gain.value = vol;
+    s.connect(f).connect(v).connect(ac.destination); s.start(t);
+  }
+  var pattern = 'D-TdD-TTD-TdDdTT';
+  var step = 60 / 160 / 2, bar = pattern.length * step;
+  function playBar(t0){
+    pattern.split('').forEach(function(ch, n){
+      var t = t0 + n * step;
+      if (ch === 'D') { boom(t, 150, 46, .34, .85); tasha(t, .12); }
+      if (ch === 'd') boom(t, 230, 90, .16, .4);
+      if (ch === 'T') tasha(t, .42);
+    });
+  }
+  function setDhol(state){
+    if (state && !ensureAudio()) { soundBtn.textContent = 'No sound here'; return; }
+    on = state;
+    soundBtn.setAttribute('aria-pressed', on); dholTicket.setAttribute('aria-pressed', on);
+    soundBtn.textContent = on ? 'Dhol: on' : 'Dhol: off';
+    dholTicket.textContent = on ? 'Stop the dhol' : 'Play the dhol';
+    stage.classList.toggle('dancing', on);
+    clearInterval(loop);
+    if (on) {
+      var next = ac.currentTime + .05;
+      playBar(next); next += bar;
+      loop = setInterval(function(){
+        while (next < ac.currentTime + .3) { playBar(next); next += bar; }
+      }, 100);
+    }
+  }
+  soundBtn.addEventListener('click', function(){ setDhol(!on); });
+  dholTicket.addEventListener('click', function(){ setDhol(!on); });
+
+  /* ---------- tap Bappa ---------- */
+  var hit = document.getElementById('bappaHit'), bubble = document.getElementById('bubble'), bt;
+  function morya(){
+    stage.classList.remove('giggle'); void stage.offsetWidth; stage.classList.add('giggle');
+    bubble.classList.add('on'); clearTimeout(bt);
+    bt = setTimeout(function(){ bubble.classList.remove('on'); }, 1100);
+    burst(24, W * .5, H * .45);
+    if (ensureAudio()) { var t = ac.currentTime + .02; boom(t, 160, 50, .35, .8); boom(t + .18, 160, 50, .35, .8); tasha(t + .09, .4); }
+  }
+  hit.addEventListener('click', morya);
+  hit.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); morya(); } });
+
+  /* ---------- visarjan of obstacles ---------- */
+  var boats = Array.prototype.slice.call(document.querySelectorAll('.boat'));
+  var left = boats.length, wish = document.getElementById('wish');
+  boats.forEach(function(boat){
+    boat.addEventListener('click', function(){
+      if (boat.classList.contains('gone')) return;
+      boat.classList.add('gone'); boat.setAttribute('aria-disabled', 'true');
+      left--;
+      if (left > 0) {
+        wish.textContent = left + (left === 1 ? ' obstacle' : ' obstacles') + ' still on the shore. Morya!';
+      } else {
+        wish.classList.add('done');
+        wish.textContent = 'Obstacles gone! Vighnaharta says tathastu. Trophy No. 10 is waiting on the shelf. Pudhchya varshi lavkar ya!';
+        stage.classList.add('blessed');
+        slots[9].classList.add('glow');
+        burst(160);
+        setTimeout(function(){ burst(120, W * .25, H * .4); }, 350);
+        setTimeout(function(){ burst(120, W * .75, H * .4); }, 700);
+        if (ensureAudio()) roar(1.1);
+      }
+    });
+  });
+
+  /* ---------- LED marquee: both worlds, one ribbon ---------- */
+  var ledItems = [
+    'गणपती बाप्पा मोरया', '10 days of Ganeshotsav', '5× IPL champions',
+    '2× Champions League T20', '2× WPL champions — Harmanpreet Kaur',
+    'Only team to win back to back · 2019 &amp; 2020', 'Lalbaugcha Raja since 1934',
+    'Duniya Hila Denge Hum', 'Ryan Rickelton · 123* in 2026', 'Vighnaharta, clear the path for No. 10',
+    'First franchise to 300 T20 matches', 'पुढच्या वर्षी लवकर या'
+  ];
+  var track = document.getElementById('ledtrack');
+  var ledHtml = ledItems.map(function(t){ return '<span>' + t + '</span>'; }).join('');
+  track.innerHTML = ledHtml + ledHtml;
+
+  /* ---------- pointer glow ---------- */
+  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    stage.addEventListener('mousemove', function(e){
+      var r = stage.getBoundingClientRect();
+      stage.style.setProperty('--px', (e.clientX - r.left) + 'px');
+      stage.style.setProperty('--py', (e.clientY - r.top) + 'px');
+      stage.classList.add('hasglow');
+    });
+    stage.addEventListener('mouseleave', function(){ stage.classList.remove('hasglow'); });
+  }
+
+  /* ---------- stadium roar (Web Audio noise swell) ---------- */
+  function roar(dur){
+    var len = Math.floor(ac.sampleRate * dur), buf = ac.createBuffer(1, len, ac.sampleRate), ch = buf.getChannelData(0);
+    for (var i = 0; i < len; i++) ch[i] = Math.random() * 2 - 1;
+    var s = ac.createBufferSource(), f = ac.createBiquadFilter(), v = ac.createGain();
+    s.buffer = buf; f.type = 'bandpass'; f.Q.value = .8;
+    var t0 = ac.currentTime + .02;
+    f.frequency.setValueAtTime(300, t0);
+    f.frequency.linearRampToValueAtTime(2200, t0 + dur * .55);
+    f.frequency.linearRampToValueAtTime(500, t0 + dur);
+    v.gain.setValueAtTime(.0001, t0);
+    v.gain.exponentialRampToValueAtTime(.5, t0 + dur * .4);
+    v.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+    s.connect(f).connect(v).connect(ac.destination);
+    s.start(t0); s.stop(t0 + dur + .05);
+  }
+
+  /* ---------- seal your wish ---------- */
+  var fanName = document.getElementById('fanName'), fanWish = document.getElementById('fanWish');
+  var sealBtn = document.getElementById('sealBtn'), cert = document.getElementById('cert');
+  var certName = document.getElementById('certName'), certWish = document.getElementById('certWish'), certSeal = document.getElementById('certSeal');
+  try {
+    var saved = JSON.parse(localStorage.getItem('bappaPaltanWish') || 'null');
+    if (saved) { fanName.value = saved.name || ''; fanWish.value = saved.wish || ''; }
+  } catch (e) {}
+  sealBtn.addEventListener('click', function(){
+    var name = (fanName.value || '').trim() || 'A Paltan fan';
+    var wishText = (fanWish.value || '').trim() || 'Trophy No. 10, please. And fewer 1-run heart attacks.';
+    certName.textContent = '— ' + name;
+    certWish.textContent = '“' + wishText + '”';
+    cert.classList.add('show');
+    certSeal.classList.remove('slam'); void certSeal.offsetWidth; certSeal.classList.add('slam');
+    burst(50, W * .5, H * .35);
+    if (ensureAudio()) { roar(.9); var t = ac.currentTime + .3; boom(t, 160, 50, .35, .7); tasha(t + .1, .4); }
+    try { localStorage.setItem('bappaPaltanWish', JSON.stringify({name: name, wish: wishText})); } catch (e) {}
+    if (!reduce) cert.scrollIntoView({behavior: 'smooth', block: 'center'});
+  });
+
+  /* ---------- Day 1: coin toss ---------- */
+  var coin = document.getElementById('coin'), coinInner = document.getElementById('coinInner');
+  if (coin) {
+    var tossResult = document.getElementById('tossResult'), tossDone = false;
+    document.querySelectorAll('#tossMini .mtbtn').forEach(function(b){
+      b.addEventListener('click', function(){
+        if (tossDone) return;
+        tossDone = true;
+        document.querySelectorAll('#tossMini .mtbtn').forEach(function(x){ x.disabled = true; });
+        var call = b.dataset.call, outcome = 'heads', extra = call === outcome ? 0 : 1;
+        coinInner.style.transform = 'rotateY(' + (1800 + extra * 180) + 'deg)';
+        if (ensureAudio()) { var t = ac.currentTime; tasha(t, .3); tasha(t + .09, .25); tasha(t + .18, .3); }
+        setTimeout(function(){
+          tossResult.textContent = call === outcome
+            ? 'Called it! Mumbai wins the toss — a brand-new team takes the field.'
+            : 'Mumbai wins the toss anyway. Nerves on Day 1, just like the players felt.';
+          burst(30);
+        }, reduce ? 50 : 1200);
+      });
+    });
+  }
+
+  /* ---------- Day 2: captain trivia ---------- */
+  var quiz2 = document.getElementById('quiz2');
+  if (quiz2) {
+    var quiz2Result = document.getElementById('quiz2Result'), quiz2Done = false;
+    var qBtns = quiz2.querySelectorAll('.qbtn');
+    qBtns.forEach(function(b){
+      b.addEventListener('click', function(){
+        if (quiz2Done) return;
+        var right = b.dataset.right === 'true';
+        if (right) {
+          quiz2Done = true;
+          qBtns.forEach(function(x){ x.disabled = true; x.classList.add(x === b ? 'right' : 'dim'); });
+          quiz2Result.textContent = 'Yes! Harbhajan Singh led as stand-in and lifted the CLT20.';
+          burst(36); if (ensureAudio()) boom(ac.currentTime, 320, 140, .22, .5);
+        } else {
+          b.classList.add('wrong'); b.disabled = true;
+          quiz2Result.textContent = 'Not this one — try another name.';
+        }
+      });
+    });
+  }
+
+  /* ---------- Day 4: connect-the-dots rangoli ---------- */
+  var rangoliMini = document.getElementById('rangoliMini');
+  if (rangoliMini) {
+    var rdots = rangoliMini.querySelectorAll('.rdot'), rangoliResult = document.getElementById('rangoliResult'), rLit = 0;
+    rdots.forEach(function(d){
+      d.addEventListener('click', function(){
+        if (d.classList.contains('lit')) return;
+        d.classList.add('lit'); rLit++;
+        rangoliResult.textContent = rLit + ' / ' + rdots.length + ' dots';
+        if (ensureAudio()) tasha(ac.currentTime, .22);
+        if (rLit === rdots.length) {
+          rangoliMini.classList.add('done');
+          rangoliResult.textContent = 'Rangoli complete. A good pattern always comes together.';
+          burst(40);
+        }
+      });
+    });
+  }
+
+  /* ---------- Day 5: hold the flame steady ---------- */
+  var holdBtn = document.getElementById('holdBtn');
+  if (holdBtn) {
+    var ring = holdBtn.querySelector('.ring'), holdResult = document.getElementById('holdResult');
+    var CIRC = 163.4, HOLD_MS = 2200, holdTimer = null, holdStart = 0, holdDone = false;
+    function holdTick(){
+      var frac = Math.min(1, (performance.now() - holdStart) / HOLD_MS);
+      ring.style.strokeDashoffset = String(CIRC * (1 - frac));
+      if (frac >= 1) {
+        holdDone = true; clearInterval(holdTimer);
+        holdBtn.classList.remove('holding');
+        holdResult.textContent = 'You held it. Just like they did in 2017 — won by one run.';
+        burst(50); if (ensureAudio()) roar(.7);
+      }
+    }
+    function startHold(e){
+      if (e.cancelable) e.preventDefault();
+      if (holdDone || holdBtn.classList.contains('holding')) return;
+      holdBtn.classList.add('holding');
+      holdStart = performance.now();
+      clearInterval(holdTimer);
+      holdTimer = setInterval(holdTick, 40);
+    }
+    function endHold(){
+      if (holdDone) return;
+      clearInterval(holdTimer);
+      if (holdBtn.classList.contains('holding')) {
+        holdBtn.classList.remove('holding');
+        ring.style.strokeDashoffset = String(CIRC);
+        holdResult.textContent = 'The breeze got it. Press and hold again — six balls left.';
+      }
+    }
+    holdBtn.addEventListener('pointerdown', startHold);
+    holdBtn.addEventListener('pointerup', endHold);
+    holdBtn.addEventListener('pointerleave', endHold);
+    holdBtn.addEventListener('pointercancel', endHold);
+    holdBtn.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startHold(e); } });
+    holdBtn.addEventListener('keyup', function(e){ if (e.key === 'Enter' || e.key === ' ') endHold(); });
+  }
+
+  /* ---------- Day 9: crowd roar meter ---------- */
+  var cheerBtn = document.getElementById('cheerBtn');
+  if (cheerBtn) {
+    var meterFill = document.getElementById('meterFill'), roarResult = document.getElementById('roarResult');
+    var cheerLevel = 0, cheerMax = 8, roaring = false;
+    cheerBtn.addEventListener('click', function(){
+      if (roaring) return;
+      cheerLevel = Math.min(cheerMax, cheerLevel + 1);
+      meterFill.style.width = (cheerLevel / cheerMax * 100) + '%';
+      if (ensureAudio()) tasha(ac.currentTime, .28 + cheerLevel * .03);
+      if (cheerLevel < cheerMax) {
+        roarResult.textContent = cheerLevel < 4 ? 'Getting louder…' : 'Almost there…';
+      } else {
+        roaring = true; cheerBtn.disabled = true;
+        roarResult.textContent = 'The whole stadium is up! Jayghosh!';
+        if (ensureAudio()) roar(1.3);
+        burst(70);
+      }
+    });
+  }
+})();
+</script>
