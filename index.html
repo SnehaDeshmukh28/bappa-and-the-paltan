@@ -337,6 +337,10 @@ footer .inner{max-width:1100px;margin-inline:auto;padding-inline:20px;display:fl
 footer a{color:#FFE6A3}
 footer .src{display:flex;flex-wrap:wrap;gap:2px 14px}
 footer .love{font-family:var(--hand);font-size:1.1rem;color:#fff}
+footer .maker{display:grid;gap:8px}
+footer .links{display:flex;gap:8px;flex-wrap:wrap}
+footer a.pill{display:inline-block;color:#0B1B4F;background:var(--gold);border:2px solid #0B1B4F;border-radius:999px;padding:3px 14px 1px;font-family:var(--display);font-weight:700;text-decoration:none;box-shadow:0 3px 0 #0B1B4F}
+footer a.pill:hover{transform:translateY(-1px)}
 
 /* ============ responsive ============ */
 @media (max-width:860px){
@@ -1008,7 +1012,13 @@ footer .love{font-family:var(--hand);font-size:1.1rem;color:#fff}
 
 <footer>
   <div class="inner">
-    <p class="love">Made with modaks by Sneha · Ganeshotsav 2026</p>
+    <div class="maker">
+      <p class="love">Made with modaks by Sneha · Ganeshotsav 2026</p>
+      <p class="links">
+        <a class="pill" href="https://www.linkedin.com/in/snehaadeshmukh/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="pill" href="https://github.com/SnehaDeshmukh28" target="_blank" rel="noopener">GitHub</a>
+      </p>
+    </div>
     <p class="src">Facts from:
       <a href="https://en.wikipedia.org/wiki/Mumbai_Indians" rel="noopener">Mumbai Indians</a>
       <a href="https://en.wikipedia.org/wiki/2026_Mumbai_Indians_season" rel="noopener">2026 season</a>
