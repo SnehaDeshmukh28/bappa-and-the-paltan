@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Bappa &amp; the Paltan</title>
 <meta name="description" content="Ten days of Ganeshotsav, nine Mumbai Indians trophies, one wish — an animated story told by Mushak.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,6 +54,8 @@ button{font:inherit;color:inherit}
 .ledtrack span::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--kumkum);margin-left:24px;box-shadow:0 0 6px var(--kumkum)}
 @keyframes led{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.ledtrack{animation:none;overflow-x:auto;max-width:100%}}
+/* Desktop bonus: pause the ticker on hover so a line can actually be read */
+.ledwrap:hover .ledtrack{animation-play-state:paused}
 
 /* ============ pointer glow on the stage ============ */
 .pglow{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .5s;background:radial-gradient(240px 240px at var(--px,50%) var(--py,50%),rgba(255,201,60,.18),transparent 70%)}
@@ -89,13 +92,29 @@ button{font:inherit;color:inherit}
 .sound:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
 
 .rail{position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:4;display:grid;gap:4px;list-style:none;margin:0;padding:8px 5px;background:rgba(10,16,48,.55);border-radius:999px;border:2px solid rgba(255,201,60,.35)}
-.rail button{background:none;border:0;padding:2px;cursor:pointer;display:grid;place-items:center;width:34px;height:30px;border-radius:10px}
+.rail button{background:none;border:0;padding:2px;cursor:pointer;display:grid;place-items:center;width:34px;height:30px;border-radius:10px;position:relative}
 .rail svg{width:30px;height:26px;overflow:visible}
-.rail .flame{opacity:0;transform-origin:15px 12px;transform:scale(.3);transition:opacity .4s,transform .4s}
-.rail button.lit .flame{opacity:1;transform:scale(1)}
-.rail button.now{background:rgba(255,201,60,.22)}
-@media (prefers-reduced-motion:no-preference){.rail button.lit .flame{animation:flicker 1.2s ease-in-out infinite}}
+.rail .flame,.mbar-lamps .flame{opacity:0;transform-origin:15px 12px;transform:scale(.3);transition:opacity .4s,transform .4s}
+.rail button.lit .flame,.mbar-lamps button.lit .flame{opacity:1;transform:scale(1)}
+.rail button.now,.mbar-lamps button.now{background:rgba(255,201,60,.22)}
+@media (prefers-reduced-motion:no-preference){.rail button.lit .flame,.mbar-lamps button.lit .flame{animation:flicker 1.2s ease-in-out infinite}}
 @keyframes flicker{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.12,.94) rotate(3deg)}}
+/* Desktop bonus: hover a diya to see which day it is before jumping */
+.rail button{cursor:pointer}
+.rail button::after{content:attr(aria-label);position:absolute;right:calc(100% + 10px);top:50%;transform:translateY(-50%) translateX(4px);background:#fff;color:var(--ink);font-family:var(--display);font-weight:700;font-size:.78rem;white-space:nowrap;padding:3px 10px 2px;border-radius:8px;border:2px solid var(--line);opacity:0;pointer-events:none;transition:opacity .15s,transform .15s}
+.rail button:hover::after,.rail button:focus-visible::after{opacity:1;transform:translateY(-50%) translateX(0)}
+
+/* ============ mobile lamp bar (fills in for the stage's rail once it scrolls away) ============ */
+.mbar{display:none}
+@media (max-width:860px){
+  .mbar{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:30;background:rgba(10,16,48,.94);backdrop-filter:blur(6px);border:2px solid rgba(255,201,60,.4);border-radius:999px;padding:7px 12px 6px;margin-block:14px 6px}
+  .mbar-day{font-family:var(--mono);font-weight:600;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .mbar-lamps{display:flex;gap:2px;list-style:none;margin:0;padding:0;overflow-x:auto;flex:1;scrollbar-width:none}
+  .mbar-lamps::-webkit-scrollbar{display:none}
+  .mbar-lamps li{flex:0 0 auto}
+  .mbar-lamps button{background:none;border:0;padding:1px;width:20px;height:17px;display:block}
+  .mbar-lamps svg{width:100%;height:100%;overflow:visible;display:block}
+}
 
 .shelf{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;display:flex;gap:4px;align-items:flex-end;background:rgba(10,16,48,.72);border:2px solid rgba(255,201,60,.45);border-radius:16px;padding:6px 10px 4px;backdrop-filter:blur(4px);max-width:calc(100% - 28px)}
 .slot{display:grid;justify-items:center;width:40px}
@@ -318,19 +337,33 @@ footer .love{font-family:var(--hand);font-size:1.1rem;color:#fff}
 /* ============ responsive ============ */
 @media (max-width:860px){
   .story{grid-template-columns:1fr}
-  .stage{height:50vh;height:50svh;z-index:5;border-bottom:3px solid var(--gold)}
-  .chapter{min-height:92vh;min-height:92svh;align-content:start;padding-block:36px 80px}
-  .chapter.intro{padding-top:30px}
+  /* The stage no longer stays pinned for the whole scroll on phones — half
+     the screen locked to an animated overlay for all ten days read as clutter,
+     not immersion. It now scrolls away like a normal hero; the .mbar strip
+     (near .rail's CSS) keeps the diya progress visible instead. */
+  .stage{position:relative;height:56vh;height:56svh;max-height:420px;min-height:280px;z-index:1;border-bottom:3px solid var(--gold)}
+  .chapter{min-height:0;align-content:start;padding-block:0}
+  .chapter.intro{padding-top:26px;padding-bottom:40px}
+  /* Ticket cards stack like a fanned deck: each one sticks a little lower
+     than the last, so the tops of earlier cards peek out above the current
+     one instead of just vanishing in a flat, endless list. */
+  .chapter:not(.intro){position:sticky;top:54px;min-height:100vh;min-height:100svh;align-content:center;padding-block:22px}
+  @media (prefers-reduced-motion:no-preference){
+    .ticket{opacity:0;transform:translateX(48px) rotate(2deg);transition:transform .6s cubic-bezier(.22,.8,.25,1),opacity .5s ease}
+    .chapter.revealed .ticket{opacity:1;transform:translateX(0) rotate(0)}
+  }
   .cap{top:10px;left:10px;font-size:.66rem;padding:3px 10px 2px}
   .sound{top:8px;right:8px;padding:3px 10px 1px;font-size:.9rem}
-  .rail{right:6px;padding:4px 2px;gap:0}
-  .rail button{width:26px;height:22px}
-  .rail svg{width:22px;height:19px}
-  .shelf{bottom:8px;padding:4px 6px 2px;gap:0}
-  .slot{width:28px}
-  .slot svg{width:20px;height:26px}
-  .slot span{font-size:.5rem}
-  .stamp{top:16%;left:6%}
+  .rail{right:6px;padding:5px 3px;gap:3px}
+  .rail button{width:26px;height:24px}
+  .rail svg{width:22px;height:20px}
+  /* Trophy shelf swipes instead of squeezing 10 cups into one tiny row */
+  .shelf{bottom:8px;padding:6px 8px 5px;gap:10px;max-width:calc(100% - 20px);overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;justify-content:flex-start;-webkit-overflow-scrolling:touch}
+  .shelf::-webkit-scrollbar{display:none}
+  .slot{width:34px;flex:0 0 auto;scroll-snap-align:center}
+  .slot svg{width:24px;height:31px}
+  .slot span{font-size:.56rem}
+  .stamp{top:14%;left:6%}
   .bubble{font-size:1.2rem}
 }
 @media (max-width:480px){
@@ -686,6 +719,13 @@ footer .love{font-family:var(--hand);font-size:1.1rem;color:#fff}
 
   <!-- ================= CHAPTERS ================= -->
   <div class="chapters">
+    <!-- Phone-only: the stage's diya progress no longer scrolls with you on
+         phones, so this slim bar keeps the "lamps lighting up" feeling
+         visible the whole way down, instead of hidden above the fold. -->
+    <div class="mbar" id="mbar" aria-hidden="true">
+      <span class="mbar-day" id="mbarDay">Prologue</span>
+      <ol class="mbar-lamps" id="mbarLamps"></ol>
+    </div>
 
     <section class="chapter intro" id="day-0" data-day="0" data-scene="mumbai" data-prop="wave" data-cups="0" data-s1="#1B2A6B" data-s2="#F58A6B" data-cap="Prologue" data-place="Mumbai · Sept 2026">
       <p class="kicker">Ganeshotsav 2026 · a story in ten days</p>
@@ -982,25 +1022,50 @@ footer .love{font-family:var(--hand);font-size:1.1rem;color:#fff}
   var stage = document.getElementById('stage');
   var chapters = Array.prototype.slice.call(document.querySelectorAll('.chapter'));
 
-  /* ---------- rail of diyas ---------- */
+  /* ---------- rail of diyas (desktop, inside the stage) + mobile lamp bar ---------- */
   var rail = document.getElementById('rail');
+  var mbarLamps = document.getElementById('mbarLamps');
   var diya = '<svg viewBox="0 0 30 26" aria-hidden="true"><path class="flame" d="M15 13 Q9 7 15 0 Q21 7 15 13 Z" fill="#FFC93C" stroke="#FF8A00" stroke-width="1.5"/><path d="M3 15 Q15 27 27 15 Q23 12 15 12 Q7 12 3 15 Z" fill="#C8642A" stroke="#2A2250" stroke-width="2"/></svg>';
-  var railBtns = [];
+  var railBtns = [], mbarBtns = [];
   for (var d = 1; d <= 10; d++) {
     var li = document.createElement('li');
     var b = document.createElement('button');
     b.type = 'button'; b.id = 'rail-' + d;
-    b.setAttribute('aria-label', 'Go to day ' + d);
+    b.setAttribute('aria-label', 'Day ' + d);
     b.innerHTML = diya;
     (function(n){ b.addEventListener('click', function(){ goTo(n); }); })(d);
     li.appendChild(b); rail.appendChild(li); railBtns.push(b);
+
+    var li2 = document.createElement('li');
+    var b2 = document.createElement('button');
+    b2.type = 'button';
+    b2.setAttribute('aria-label', 'Go to day ' + d);
+    b2.innerHTML = diya;
+    (function(n){ b2.addEventListener('click', function(){ goTo(n); }); })(d);
+    li2.appendChild(b2); mbarLamps.appendChild(li2); mbarBtns.push(b2);
   }
   function goTo(n){
+    // The stage no longer overlays the chapters on phones (it scrolls away
+    // like a normal hero), so no offset compensation is needed there anymore.
     var el = document.getElementById('day-' + n);
-    var mobile = window.matchMedia('(max-width:860px)').matches;
-    var offset = mobile ? stage.offsetHeight - 10 : 0;
-    window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: reduce ? 'auto' : 'smooth'});
+    window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY, behavior: reduce ? 'auto' : 'smooth'});
   }
+
+  /* ---------- phone card stack: fan each ticket's sticky offset, and
+     reveal it with a slide-in-from-the-right the moment it arrives ---------- */
+  var dayIndex = 0;
+  chapters.forEach(function(ch){
+    if (ch.classList.contains('intro')) return;
+    dayIndex++;
+    ch.style.top = (54 + (dayIndex - 1) * 15) + 'px';
+    ch.style.zIndex = String(dayIndex);
+  });
+  var revealIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('revealed'); revealIo.unobserve(e.target); }
+    });
+  }, {rootMargin: '0px 0px -8% 0px'});
+  chapters.forEach(function(ch){ if (!ch.classList.contains('intro')) revealIo.observe(ch); });
 
   /* ---------- trophy shelf ---------- */
   var cups = [['clt','2011'],['ipl','2013'],['clt','2013'],['ipl','2015'],['ipl','2017'],['ipl','2019'],['ipl','2020'],['wpl','2023'],['wpl','2025'],['mystery','20??']];
@@ -1016,7 +1081,7 @@ footer .love{font-family:var(--hand);font-size:1.1rem;color:#fff}
   });
 
   /* ---------- chapter activation ---------- */
-  var capDay = document.getElementById('capDay'), capPlace = document.getElementById('capPlace');
+  var capDay = document.getElementById('capDay'), capPlace = document.getElementById('capPlace'), mbarDay = document.getElementById('mbarDay');
   var stamp = document.getElementById('stamp');
   var current = -1, maxCups = 0;
   function activate(i){
@@ -1029,8 +1094,13 @@ footer .love{font-family:var(--hand);font-size:1.1rem;color:#fff}
     stage.style.setProperty('--s2', c.s2);
     capDay.textContent = c.cap;
     capPlace.textContent = c.place.replace('&amp;', '&');
+    mbarDay.textContent = c.cap;
     var day = +c.day, n = +c.cups;
     railBtns.forEach(function(btn, k){
+      btn.classList.toggle('lit', k < day);
+      btn.classList.toggle('now', k === day - 1);
+    });
+    mbarBtns.forEach(function(btn, k){
       btn.classList.toggle('lit', k < day);
       btn.classList.toggle('now', k === day - 1);
     });
@@ -1050,13 +1120,37 @@ footer .love{font-family:var(--hand);font-size:1.1rem;color:#fff}
   activate(0);
 
   var io;
+  // On phones "current day" should mean exactly "the card now docked under
+  // the lamp bar" — checked directly against each card's own fanned offset,
+  // since that lines up with the stack perfectly (a percentage-based scroll
+  // band can't, once every card sticks at a different height).
+  var dayChapters = chapters.filter(function(ch){ return !ch.classList.contains('intro'); });
+  var mobileTicking = false;
+  function mobileScrollHandler(){
+    if (mobileTicking) return;
+    mobileTicking = true;
+    requestAnimationFrame(function(){
+      mobileTicking = false;
+      var docked = 0;
+      for (var k = 0; k < dayChapters.length; k++) {
+        var stuckTop = parseFloat(dayChapters[k].style.top || '0');
+        if (dayChapters[k].getBoundingClientRect().top <= stuckTop + 3) docked = k + 1;
+      }
+      activate(docked);
+    });
+  }
   function observe(){
-    if (io) io.disconnect();
-    var mobile = window.matchMedia('(max-width:860px)').matches;
-    io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if (e.isIntersecting) activate(chapters.indexOf(e.target)); });
-    }, {rootMargin: mobile ? '-68% 0px -30% 0px' : '-48% 0px -50% 0px'});
-    chapters.forEach(function(ch){ io.observe(ch); });
+    if (io) { io.disconnect(); io = null; }
+    window.removeEventListener('scroll', mobileScrollHandler);
+    if (window.matchMedia('(max-width:860px)').matches) {
+      window.addEventListener('scroll', mobileScrollHandler, {passive: true});
+      mobileScrollHandler();
+    } else {
+      io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if (e.isIntersecting) activate(chapters.indexOf(e.target)); });
+      }, {rootMargin: '-45% 0px -50% 0px'});
+      chapters.forEach(function(ch){ io.observe(ch); });
+    }
   }
   observe();
   window.matchMedia('(max-width:860px)').addEventListener('change', observe);
